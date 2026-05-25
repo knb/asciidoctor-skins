@@ -25,8 +25,8 @@ Markdown は手軽で、短いメモや基本的な構造のページに向い�
 
 == GitHub Pages
 
-* **スキンプレビュー:** https://larento.github.io/asciidoctor-skins/[larento.github.io/asciidoctor-skins]
-* **Skin Maker エディタ:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[ビジュアルエディタを開く]
+* **スキンプレビュー:** https://knb.github.io/asciidoctor-skins/[knb.github.io/asciidoctor-skins]
+* **Skin Maker エディタ:** https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[ビジュアルエディタを開く]
 
 サイトは `main` ブランチからデプロイされます。push のたびに CI が `bundle exec rake editor:prepare` を実行し、プレビュー HTML とソースマップを生成してから公開します。
 
@@ -36,7 +36,7 @@ NOTE: プロジェクトサイトのため URL は `/asciidoctor-skins/` プレ�
 
 ブラウザ上でレイアウトを選び、色・フォント・余白を調整し、プレビューしながらテーマ YAML を書き出せます。YAML を直接編集せず Skin Maker を試す最短ルートです。
 
-**GitHub Pages で開く:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker エディタ]
+**GitHub Pages で開く:** https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker エディタ]
 
 === 機能
 
@@ -102,7 +102,7 @@ IMPORTANT: `.adoc` ファイルを用意したら、link:css/asciidoctor.css[asc
 
 == デモ
 
-スキン一覧のプレビューは、上流の https://darshandsoni.com/asciidoctor-skins[オンラインデモ] または本フォークの https://larento.github.io/asciidoctor-skins/[GitHub Pages] で確認できます。
+スキン一覧のプレビューは、上流の https://darshandsoni.com/asciidoctor-skins[オンラインデモ] または本フォークの https://knb.github.io/asciidoctor-skins/[GitHub Pages] で確認できます。
 
 URL 末尾に `?` と CSS ファイル名を付けると表示スキンを切り替えられます。例: `?material`
 
@@ -125,7 +125,7 @@ bundle exec ruby skin-maker/bin/skin-maker new my-brand --layout material
 bundle exec rake skins:rebuild
 ----
 
-生成 CSS は `css/` に出力されます。対話的な調整には link:https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[ビジュアルエディタ]、直接編集には YAML ファイルを利用してください。
+生成 CSS は `css/` に出力されます。対話的な調整には link:https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[ビジュアルエディタ]、直接編集には YAML ファイルを利用してください。
 
 == スキン一覧
 

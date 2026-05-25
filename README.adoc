@@ -25,8 +25,8 @@ Asciidoctor comes with a very clean default stylesheet that saves users from spe
 
 == GitHub Pages
 
-* **Skin preview demo:** https://larento.github.io/asciidoctor-skins/[larento.github.io/asciidoctor-skins]
-* **Skin Maker editor:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Open the visual editor]
+* **Skin preview demo:** https://knb.github.io/asciidoctor-skins/[knb.github.io/asciidoctor-skins]
+* **Skin Maker editor:** https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[Open the visual editor]
 
 The site is deployed from the `main` branch. On each push, CI runs `bundle exec rake editor:prepare` to generate preview HTML and source maps before publishing.
 
@@ -36,7 +36,7 @@ NOTE: This is a project site served under the `/asciidoctor-skins/` path prefix.
 
 The visual editor lets you pick a layout, tune colors and fonts, preview the result, and export a theme YAML file. It is the fastest way to try Skin Maker without editing YAML by hand.
 
-**Open on GitHub Pages:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker editor]
+**Open on GitHub Pages:** https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker editor]
 
 === Features
 
@@ -102,7 +102,7 @@ IMPORTANT: Once you've got an `.adoc` document going, download the link:css/asci
 
 == Demo
 
-You can preview all of the stylesheets in the https://darshandsoni.com/asciidoctor-skins[online demo] (upstream) or on https://larento.github.io/asciidoctor-skins/[GitHub Pages] (this fork).
+You can preview all of the stylesheets in the https://darshandsoni.com/asciidoctor-skins[online demo] (upstream) or on https://knb.github.io/asciidoctor-skins/[GitHub Pages] (this fork).
 
 To change the displayed stylesheet, just add the name of the CSS file after a `?` character at the end of the URL. For example, to preview the material stylsheet, just add `?material`.
 
@@ -125,7 +125,7 @@ bundle exec ruby skin-maker/bin/skin-maker new my-brand --layout material
 bundle exec rake skins:rebuild
 ----
 
-Generated CSS is written to `css/`. Use the link:https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[visual editor] for interactive tuning, or edit YAML directly.
+Generated CSS is written to `css/`. Use the link:https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[visual editor] for interactive tuning, or edit YAML directly.
 
 == Skins
 

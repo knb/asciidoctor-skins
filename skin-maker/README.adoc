@@ -37,7 +37,7 @@ bundle install
 
 ブラウザ上で色・フォントを調整し、YAML を書き出せます。
 
-*GitHub Pages:* https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker エディタ]
+*GitHub Pages:* https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker エディタ]
 
 [source,bash]
 ----
