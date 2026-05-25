@@ -4,21 +4,49 @@ require 'bundler/setup'
 require_relative 'skin-maker/lib/skin_maker'
 
 namespace :editor do
-  desc 'Build editor preview CSS and manifest.json'
+  desc 'Build editor preview CSS, manifest.json, and manifest.js'
   task :build do
     SkinMaker::Editor.new.build!
+  end
+
+  desc 'Serve Skin Maker over HTTP (default port 8765)'
+  task :serve do
+    port = ENV.fetch('PORT', SkinMaker::Server::DEFAULT_PORT).to_i
+    SkinMaker::Server.start!(port: port, open_browser: ENV['OPEN'] == '1')
+  end
+
+  desc 'Prepare assets, start HTTP server, and open the editor'
+  task open: :prepare do
+    port = ENV.fetch('PORT', SkinMaker::Server::DEFAULT_PORT).to_i
+    SkinMaker::Server.start!(port: port, open_browser: true)
   end
 end
 
 namespace :preview do
   desc 'Render index2.html for the visual editor preview'
   task :index2 do
-    sh 'bundle exec asciidoctor index2.adoc -o index2.html -a stylesheet=css/editor/material.css'
+    SkinMaker::Preview.render!(
+      File.join(SkinMaker::ROOT, 'index2.adoc'),
+      html_path: File.join(SkinMaker::ROOT, 'index2.html'),
+      stylesheet: 'css/editor/material.css'
+    )
   end
+
+  desc 'Render index2-ja.html for the visual editor preview'
+  task :index2_ja do
+    SkinMaker::Preview.render!(
+      File.join(SkinMaker::ROOT, 'index2-ja.adoc'),
+      html_path: File.join(SkinMaker::ROOT, 'index2-ja.html'),
+      stylesheet: 'css/editor/material.css'
+    )
+  end
+
+  desc 'Render all editor preview HTML pages'
+  task :pages => %i[index2 index2_ja]
 end
 
 desc 'Build editor assets and preview HTML'
-task 'editor:prepare' => ['editor:build', 'preview:index2']
+task 'editor:prepare' => ['editor:build', 'preview:pages']
 
 namespace :skins do
   desc 'Compile Sass skins (optional: rake skins:build[name] for one skin)'

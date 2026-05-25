@@ -61,15 +61,19 @@ Generated CSS is written to `css/`. See link:skin-maker/README.adoc[skin-maker/R
 
 === Visual editor
 
-Open link:skin-maker/editor/index.html[skin-maker/editor/index.html] in a browser after preparing assets:
+**GitHub Pages:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker editor] (live preview, source inspect, YAML export).
+
+Locally, open link:skin-maker/editor/index.html[skin-maker/editor/index.html] via a local HTTP server:
 
 [source,bash]
 ----
-bundle exec rake editor:prepare
-# then open skin-maker/editor/index.html
+bundle exec rake editor:open
+# or: bundle exec rake editor:prepare && bundle exec rake editor:serve
 ----
 
-The editor provides live preview on `index2.html`, layout switching (`material`, `plain`, `bootswatch`, `tufte`), and YAML export.
+`xdg-open skin-maker/editor/index.html` (`file://`) does not work for preview because browsers block `fetch` and iframe access on local files.
+
+The editor provides live preview on `index2.html` / `index2-ja.html`, layout switching (`material`, `plain`, `bootswatch`, `tufte`), AsciiDoc source inspect, and YAML export. GitHub Pages deploys run `rake editor:prepare` in CI to generate preview HTML and source maps.
 
 == Skins
 

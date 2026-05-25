@@ -37,17 +37,24 @@ bundle install
 
 ブラウザ上で色・フォントを調整し、YAML を書き出せます。
 
+*GitHub Pages:* https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker エディタ]
+
 [source,bash]
 ----
-bundle exec rake editor:prepare
+bundle exec rake editor:open
 ----
 
-その後 `skin-maker/editor/index.html` をブラウザで開きます。
+`editor:open` はアセット生成、`index2.html` と `index2-ja.html` のレンダリング、HTTP サーバー起動、ブラウザ表示まで行います。
+
+`xdg-open skin-maker/editor/index.html`（`file://`）ではブラウザの CORS 制限によりライブプレビューが動きません。色の編集と YAML 書き出しのみ可能です。
+
+GitHub Pages（プロジェクトサイト `/asciidoctor-skins/`）でも動作します。`gh-pages` ブランチへの push 時、CI が `editor:prepare` を実行してプレビュー HTML とソースマップを生成してからデプロイします。
 
 機能:
 
 * レイアウト切り替え（material / plain / bootswatch / tufte）
-* 色・フォント・余白のライブプレビュー（`index2.html`）
+* 色・フォント・余白のライブプレビュー（`index2.html` / `index2-ja.html`）
+* プレビュー要素をクリックして AsciiDoc ソースを参照（ソース Inspect）
 * テーマ YAML のダウンロード
 * CSS 変数ブロックのクリップボードコピー
 
@@ -81,9 +88,13 @@ bundle exec ruby skin-maker/bin/skin-maker themes:material
 
 [source,bash]
 ----
-bundle exec rake editor:build       # css/editor/*.css + manifest.json
-bundle exec rake preview:index2     # index2.html を生成
-bundle exec rake editor:prepare     # 上記 2 つをまとめて実行
+bundle exec rake editor:build       # css/editor/*.css + manifest.js
+bundle exec rake preview:index2       # index2.html を生成
+bundle exec rake preview:index2_ja    # index2-ja.html を生成
+bundle exec rake preview:pages        # 上記 2 つをまとめて生成
+bundle exec rake editor:prepare       # editor:build + preview:pages
+bundle exec rake editor:serve       # HTTP サーバー（PORT=8765）
+bundle exec rake editor:open        # prepare + serve + ブラウザ起動
 bundle exec rake skins:generate     # themes/*.yml → scss/skins/*.scss
 bundle exec rake skins:build        # scss/skins/*.scss → css/*.css
 bundle exec rake skins:rebuild      # generate + build

@@ -7,6 +7,13 @@
   <link rel="stylesheet" href="editor.css">
 </head>
 <body>
+  <div id="file-protocol-banner" class="file-banner hidden" role="alert">
+    <strong>file:// ではライブプレビューが使えません。</strong>
+    ターミナルで <code>bundle exec rake editor:open</code> を実行するか、
+    <code>bundle exec rake editor:serve</code> 後に
+    <a id="serve-link" href="http://127.0.0.1:8765/skin-maker/editor/index.html">http://127.0.0.1:8765/skin-maker/editor/</a>
+    を開いてください。色の編集と YAML 書き出しはこのまま利用できます。
+  </div>
   <header class="app-header">
     <div>
       <h1>Asciidoctor Skin Maker</h1>
@@ -21,49 +28,49 @@
 
   <main class="app-main">
     <aside class="panel controls">
-      <section>
-        <h2>スキン</h2>
-        <label>
-          スキン名
-          <input type="text" id="skin-name" value="my-skin" placeholder="my-skin">
-        </label>
-        <label>
-          レイアウト
-          <select id="layout-select"></select>
-        </label>
-        <p id="layout-description" class="hint"></p>
-      </section>
+      <div id="settings-container"></div>
 
-      <section>
-        <h2>フォント</h2>
-        <div id="font-fields" class="field-grid"></div>
-      </section>
-
-      <section>
-        <h2>色</h2>
-        <div id="color-fields" class="field-grid"></div>
-      </section>
-
-      <section>
-        <h2>サイズ・余白</h2>
-        <div id="spacing-fields" class="field-grid"></div>
-      </section>
-
-      <section class="commands">
-        <h2>ビルド手順</h2>
-        <pre id="build-instructions"></pre>
-      </section>
+      <details class="settings-group commands" open>
+        <summary>ビルド手順</summary>
+        <div class="settings-body">
+          <pre id="build-instructions"></pre>
+        </div>
+      </details>
     </aside>
 
     <section class="panel preview">
       <div class="preview-toolbar">
-        <span>プレビュー: <code id="preview-path">index2.html</code></span>
+        <label class="preview-doc-picker">
+          <span>プレビュー文書</span>
+          <select id="preview-doc-select"></select>
+        </label>
+        <label class="preview-inspect-toggle">
+          <input type="checkbox" id="source-inspect-toggle">
+          <span>ソース Inspect</span>
+        </label>
+        <span>ファイル: <code id="preview-path">index2.html</code></span>
         <a id="open-preview" href="../index2.html" target="_blank" rel="noopener">新しいタブで開く</a>
       </div>
-      <iframe id="preview-frame" title="Skin preview" src="../index2.html"></iframe>
+      <div class="preview-body">
+        <iframe id="preview-frame" title="Skin preview"></iframe>
+        <aside id="preview-source-panel" class="preview-source hidden" aria-live="polite">
+          <div class="preview-source-toolbar">
+            <div class="preview-source-meta">
+              <strong id="source-kind">要素</strong>
+              <span id="source-location"></span>
+            </div>
+            <div class="preview-source-actions">
+              <a id="source-open-adoc" href="#" target="_blank" rel="noopener">.adoc を開く</a>
+              <button type="button" id="source-copy" class="secondary">コピー</button>
+            </div>
+          </div>
+          <pre id="source-content"></pre>
+        </aside>
+      </div>
     </section>
   </main>
 
+  <script src="manifest.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

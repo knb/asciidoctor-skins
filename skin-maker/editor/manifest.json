@@ -1,6 +1,25 @@
 {
   "version": 1,
-  "previewPage": "../index2.html",
+  "previewPage": "/index2.html",
+  "previewPages": [
+    {
+      "id": "en",
+      "label": "English (index2.html)",
+      "path": "/index2.html",
+      "sourceFile": "/index2.adoc",
+      "sourceMap": "/skin-maker/editor/source-maps/index2.json"
+    },
+    {
+      "id": "ja",
+      "label": "日本語 (index2-ja.html)",
+      "path": "/index2-ja.html",
+      "sourceFile": "/index2-ja.adoc",
+      "sourceMap": "/skin-maker/editor/source-maps/index2-ja.json"
+    }
+  ],
+  "defaultPreviewPage": "en",
+  "editorPage": "/skin-maker/editor/index.html",
+  "pagesBasePath": "",
   "tokenMap": {
     "colors": {
       "main": "--color-main",
@@ -40,7 +59,7 @@
       "id": "material",
       "label": "Material",
       "description": "Filled heading bands and sidebar table of contents.",
-      "previewCss": "../css/editor/material.css",
+      "previewCss": "/css/editor/material.css",
       "defaults": {
         "name": "material",
         "layout": "material",
@@ -83,7 +102,7 @@
       "id": "plain",
       "label": "Plain",
       "description": "Minimal typography-focused layout.",
-      "previewCss": "../css/editor/plain.css",
+      "previewCss": "/css/editor/plain.css",
       "defaults": {
         "name": "plain",
         "layout": "plain",
@@ -126,7 +145,7 @@
       "id": "bootswatch",
       "label": "Bootswatch",
       "description": "Horizontal navbar TOC with document margins.",
-      "previewCss": "../css/editor/bootswatch.css",
+      "previewCss": "/css/editor/bootswatch.css",
       "defaults": {
         "name": "bootswatch",
         "layout": "bootswatch",
@@ -169,7 +188,7 @@
       "id": "tufte",
       "label": "Tufte",
       "description": "Serif typography with generous side margins.",
-      "previewCss": "../css/editor/tufte.css",
+      "previewCss": "/css/editor/tufte.css",
       "defaults": {
         "name": "tufte",
         "layout": "tufte",

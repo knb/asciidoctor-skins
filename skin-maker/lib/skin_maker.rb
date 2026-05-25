@@ -38,4 +38,8 @@ end
 require_relative 'skin_maker/compiler'
 require_relative 'skin_maker/generator'
 require_relative 'skin_maker/theme'
+require_relative 'skin_maker/source_map'
+require_relative 'skin_maker/raw_source'
+require_relative 'skin_maker/preview'
 require_relative 'skin_maker/editor'
+require_relative 'skin_maker/server'
