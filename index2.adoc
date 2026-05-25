@@ -1,0 +1,816 @@
+= AsciiDoc Syntax Comprehensive Showcase
+Doc Writer <doc.writer@email.org>; Another Author <a.author@email.org>
+v1.0, 2026-05-26, Asciidoctor syntax quick reference demo
+:toc: left
+:toclevels: 3
+:icons: font
+:stem: latexmath
+:experimental:
+:source-highlighter: rouge
+:imagesdir: resources
+:url-home: https://asciidoctor.org
+:link-docs: https://docs.asciidoctor.org/asciidoc/latest/[documentation]
+:summary: AsciiDoc is a mature, plain-text document format for writing notes, articles, documentation, books, and more. \
+It's also a text processor and toolchain for translating documents into various output formats.
+:checkedbox: pass:normal[{startsb}&#10004;{endsb}]
+:quick-uri: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+:release-version: 2.4.3
+:homepage: https://example.org
+
+This document demonstrates AsciiDoc syntax covered by the https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/[AsciiDoc Syntax Quick Reference].
+It is intended as a comprehensive stylesheet preview page.
+
+Check out {url-home}[Asciidoctor] and read the {link-docs} too.
+
+{summary}
+
+{checkedbox} Attribute substitution works in the preamble.
+
+[#paragraphs]
+== Paragraphs
+
+Paragraphs don't require special markup in AsciiDoc.
+A paragraph is defined by one or more consecutive lines of text.
+Line breaks within a paragraph are not displayed.
+
+Leave at least one empty line to begin a new paragraph.
+
+ A literal paragraph.
+ One or more consecutive lines indented by at least one space.
+
+ The text is shown in a fixed-width font with preserved whitespace.
+
+Roses are red, +
+violets are blue.
+
+[%hardbreaks]
+A ruby is red.
+Java is black.
+
+[.lead]
+This text will be styled as a lead paragraph (i.e., larger font).
+
+This paragraph will not be styled as a lead paragraph.
+
+== Text formatting
+
+=== Constrained bold, italic, and monospace
+
+It has *strong* significance to me.
+
+I _cannot_ stress this enough.
+
+Type `OK` to accept.
+
+That *_really_* has to go.
+
+Can't pick one? Let's use them `*_all_*`.
+
+=== Unconstrained bold, italic, and monospace
+
+**C**reate, **R**ead, **U**pdate, and **D**elete (CRUD)
+
+That's fan__freakin__tastic!
+
+Don't pass generic ``Object``s to methods that accept ``String``s!
+
+It was Beatle**__mania__**!
+
+=== Highlight, underline, strikethrough, and custom role
+
+Mark my words, #automation is essential#.
+
+##Mark##up refers to text that contains formatting ##mark##s.
+
+Where did all the [.underline]#cores# go?
+
+We need [.line-through]#ten# twenty VMs.
+
+A [.myrole]#custom role# must be fulfilled by the theme.
+
+=== Superscript and subscript
+
+Some Superscript^®^ text and some subscript text: H~2~O.
+
+^super^script and ~sub~script inline.
+
+=== Smart quotes and apostrophes
+
+"`double curved quotes`"
+
+'`single curved quotes`'
+
+Olaf's desk was a mess.
+
+A ``std::vector``'s size is the number of items it contains.
+
+All of the werewolves`' desks were a mess.
+
+Olaf had been with the company since the `'00s.
+
+== Links
+
+https://asciidoctor.org - automatic!
+
+https://asciidoctor.org[Asciidoctor]
+
+devel@discuss.example.org
+
+mailto:devel@discuss.example.org[Discuss]
+
+mailto:join@discuss.example.org[Subscribe,Subscribe me,I want to join!]
+
+https://chat.asciidoc.org[Discuss AsciiDoc,role=external,window=_blank]
+
+https://chat.asciidoc.org[Discuss AsciiDoc^]
+
+link:++https://example.org/?q=[a b]++[URL with special characters]
+
+https://example.org/?q=%5Ba%20b%5D[URL with special characters]
+
+link:index.html[Docs]
+
+link:\\server\share\whitepaper.pdf[Whitepaper]
+
+[[bookmark-a]]Inline anchors make arbitrary content referenceable.
+
+[#bookmark-b]#Inline anchors can be applied to a phrase like this one.#
+
+anchor:bookmark-c[]Use a cross reference to link to this location.
+
+[[bookmark-d,last paragraph]]The xreflabel attribute will be used as link text in the cross-reference link.
+
+See <<paragraphs>> to learn how to write paragraphs.
+
+Learn how to organize the document into <<section-titles,sections>>.
+
+Refer to xref:index.adoc#_headings[Headings in index.adoc] for more information.
+
+If you never return from xref:index.adoc[index.adoc], we'll send help.
+
+This is an attribute reference {quick-uri}[which links this text to the AsciiDoc Quick Reference^].
+
+[#section-titles]
+== Section titles
+
+=== Second level section title
+
+==== Third level section title
+
+===== Fourth level section title
+
+====== Fifth level section title
+
+[discrete]
+=== I'm an independent heading!
+
+This paragraph is its sibling, not its child.
+
+== Lists
+
+=== Unordered lists
+
+.Unordered list title
+* list item 1
+** nested list item
+*** deeper nested list item
+* list item 2
+ ** another nested list item
+* list item 3
+
+* Level 1 list item
+** Level 2 list item
+*** Level 3 list item
+**** Level 4 list item
+***** Level 5 list item
+* Level 1 list item
+
+=== Ordered lists
+
+.Ordered list title
+. Step 1
+. Step 2
+.. Step 2a
+.. Step 2b
+. Step 3
+
+. Level 1 list item
+.. Level 2 list item
+... Level 3 list item
+.... Level 4 list item
+..... Level 5 list item
+. Level 1 list item
+
+You can override the number scheme for any level by setting its style (the first positional entry in a block attribute list). You can also set the starting number using the start attribute:
+
+["lowerroman", start=5]
+. Five
+. Six
+[loweralpha]
+.. a
+.. b
+.. c
+. Seven
+
+=== Checklist
+
+* [*] checked
+* [x] also checked
+* [ ] not checked
+* normal list item
+
+=== Description lists
+
+First term:: The description can be placed on the same line as the term.
+Second term::
+Description of the second term.
+The description can also start on its own line.
+
+CPU:: The brain of the computer.
+Hard drive:: Permanent storage for operating system and/or user files.
+RAM:: Temporarily stores information the CPU uses during operation.
+
+.A horizontal description list
+[horizontal]
+CPU:: The brain of the computer.
+Hard drive:: Permanent storage for operating system and/or user files.
+RAM:: Temporarily stores information the CPU uses during operation.
+
+.Description list with bullets
+Diary::
+* Milk
+* Eggs
+Bakery::
+* Bread
+Produce::
+* Bananas
+
+=== Question and answer lists
+
+[qanda]
+What is the answer?::
+This is the answer.
+
+Are cameras allowed?::
+Are backpacks allowed?::
+No.
+
+=== Mixed lists
+
+.Mixed unordered and ordered lists
+. Linux
+* Fedora
+* Ubuntu
+* Slackware
+. BSD
+* FreeBSD
+* NetBSD
+
+Operating Systems::
+  Linux:::
+    . Fedora
+      * Desktop
+    . Ubuntu
+      * Desktop
+      * Server
+  BSD:::
+    . FreeBSD
+    . NetBSD
+
+Cloud Providers::
+  PaaS:::
+    . OpenShift
+    . CloudBees
+  IaaS:::
+    . Amazon EC2
+    . Rackspace
+
+=== Complex list content
+
+* Every list item has at least one paragraph of content,
+  which may be wrapped, even using a hanging indent.
++
+Additional paragraphs or blocks are adjoined by putting
+a list continuation on a line adjacent to both blocks.
++
+list continuation:: a plus sign (`{plus}`) on a line by itself
+
+* A literal paragraph does not require a list continuation.
+
+ $ cd projects/my-book
+
+* AsciiDoc lists may contain any compound content.
++
+|===
+|Column 1, Header Row |Column 2, Header Row
+
+|Column 1, Row 1
+|Column 2, Row 1
+|===
+
+== Images
+
+image::picture.jpg[]
+
+image::picture.jpg[Sample image]
+
+.A mountain sunset
+[#img-sunset,caption="Figure 1: ",link=https://www.flickr.com/photos/javh/5448336655]
+image::picture.jpg[Sunset,200,100]
+
+image::https://asciidoctor.org/images/octocat.jpg[GitHub mascot]
+
+Click image:picture.jpg[] to get the party started.
+
+Click image:picture.jpg[title=Pause] when you need a break.
+
+image:picture.jpg[Sunset,150,150,role=right] What a beautiful sunset!
+
+// Set :data-uri: in the document header to embed images as data URIs.
+
+== Audio and video
+
+// The following macros demonstrate syntax; media files may not be present in this repository.
+
+audio::ocean-waves.wav[]
+
+audio::ocean-waves.wav[start=2,opts=autoplay]
+
+video::video-file.mp4[]
+
+video::video-file.mp4[width=640,start=2,opts=autoplay]
+
+video::RvRhUHTV_8k[youtube]
+
+video::67480300[vimeo]
+
+== Keyboard, button, and menu macros
+
+|===
+|Shortcut |Purpose
+
+|kbd:[F11]
+|Toggle fullscreen
+
+|kbd:[Ctrl+T]
+|Open a new tab
+|===
+
+To save the file, select menu:File[Save].
+
+Select menu:View[Zoom > Reset] to reset the zoom level to the default setting.
+
+Press the btn:[OK] button when you are finished.
+
+Select a file in the file navigator and click btn:[Open].
+
+== Literals and source code
+
+Output literal monospace text, such as `+{backtick}+` or `+http://localhost:8080+`, by enclosing the text in a pair of pluses surrounded by a pair of backticks.
+
+Normal line.
+
+ Indent line by one space to create a literal line.
+
+Normal line.
+
+....
+error: 1954 Forbidden search
+absolutely fatal: operation lost in the dodecahedron of doom
+
+Would you like to try again? y/n
+....
+
+.Gemfile.lock
+----
+GEM
+  remote: https://rubygems.org/
+  specs:
+    asciidoctor (2.0.15)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  asciidoctor (~> 2.0.15)
+----
+
+.Some Ruby code
+[source,ruby]
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+[source,ruby]
+----
+require 'sinatra' // <1>
+
+get '/hi' do // <2>
+  "Hello World!" // <3>
+end
+----
+<1> Library import
+<2> URL mapping
+<3> HTTP response body
+
+----
+line of code // <1>
+line of code # <2>
+line of code ;; <3>
+line of code <!--4-->
+----
+<1> A callout behind a line comment for C-style languages.
+<2> A callout behind a line comment for Ruby, Python, Perl, etc.
+<3> A callout behind a line comment for Clojure.
+<4> A callout behind a line comment for XML or SGML languages like HTML.
+
+[source,xml]
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0">
+
+This is normal content after a source paragraph.
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+  <groupId>org.asciidoctor</groupId>
+  <artifactId>asciidoctorj</artifactId>
+  <version>{release-version}</version>
+</dependency>
+----
+
+== Admonitions
+
+NOTE: An admonition draws the reader's attention to auxiliary information.
+
+IMPORTANT: Don't forget the children!
+
+TIP: Look for the warp zone under the bridge.
+
+CAUTION: Slippery when wet.
+
+WARNING: The software you're about to use is untested.
+
+[NOTE]
+.A "NOTE" type admonition
+====
+This is an example of an admonition block.
+
+Unlike an admonition paragraph, it may contain any AsciiDoc content.
+
+.A list
+- one
+- two
+- three
+
+Another paragraph.
+====
+
+== Delimited blocks
+
+.Example block title
+====
+Content in an example block is subject to normal substitutions.
+
+Here's a sample AsciiDoc document:
+
+----
+= Title of Document
+Doc Writer
+:toc:
+
+This guide provides...
+----
+====
+
+.Optional Title
+****
+Sidebars are used to visually separate auxiliary bits of content
+that supplement the main text.
+****
+
+[#id-for-listing-block]
+.Listing block title
+----
+Content in a listing block is subject to verbatim substitutions.
+Listing block content is commonly used to preserve code input.
+----
+
+[quote,Abraham Lincoln,Address delivered at the dedication of the Cemetery at Gettysburg]
+____
+Four score and seven years ago our fathers brought forth
+on this continent a new nation...
+____
+
+[quote,Albert Einstein]
+A person who never made a mistake never tried anything new.
+
+____
+A person who never made a mistake never tried anything new.
+____
+
+[quote,Charles Lutwidge Dodgson,'Mathematician and author, also known as https://en.wikipedia.org/wiki/Lewis_Carroll[Lewis Carroll]']
+____
+If you don't know where you are going, any road will get you there.
+____
+
+"I hold it that a little rebellion now and then is a good thing,
+and as necessary in the political world as storms in the physical."
+-- Thomas Jefferson, Papers of Thomas Jefferson: Volume 11
+
+[verse,firstname lastname,poem title and more]
+____
+This is a verse block.
+  Indents and endlines are preserved in verse blocks.
+____
+
+--
+An open block can be an anonymous container,
+or it can masquerade as any other block.
+--
+
+[source]
+--
+puts "I'm a source block!"
+--
+
+++++
+<p>
+Content in a passthrough block is passed to the output unprocessed.
+That means you can include raw HTML.
+</p>
+++++
+
+== Tables
+
+.Table Title
+|===
+|Column 1, Header Row |Column 2, Header Row
+
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|===
+
+[%header,cols=2*]
+|===
+|Name of Column 1
+|Name of Column 2
+
+|Cell in column 1, row 1
+|Cell in column 2, row 1
+
+|Cell in column 1, row 2
+|Cell in column 2, row 2
+|===
+
+.Applications
+[cols="1,1,2"]
+|===
+|Name |Category |Description
+
+|Firefox
+|Browser
+|Mozilla Firefox is an open source web browser.
+It's designed for standards compliance,
+performance, portability.
+
+|Arquillian
+|Testing
+|An innovative and highly extensible testing platform.
+Empowers developers to easily create real, automated tests.
+|===
+
+[cols="2,2,5a"]
+|===
+|Firefox
+|Browser
+|Mozilla Firefox is an open source web browser.
+
+It's designed for:
+
+* standards compliance
+* performance
+* portability
+
+https://getfirefox.com[Get Firefox]!
+|===
+
+,===
+Artist,Track,Genre
+
+Baauer,Harlem Shake,Hip Hop
+,===
+
+[%header,format=csv]
+|===
+Artist,Track,Genre
+Baauer,Harlem Shake,Hip Hop
+The Lumineers,Ho Hey,Folk Rock
+|===
+
+:===
+Artist:Track:Genre
+
+Robyn:Indestructible:Dance
+:===
+
+[cols="e,m,^,>s",width="25%"]
+|===
+|1 >s|2 |3 |4
+^|5 2.2+^.^|6 .3+<.>m|7
+^|8
+|9 2+>|10
+|===
+
+====
+.A table containing another nested table
+[cols=".^,<.^a,>.^a"]
+|===
+| \[X_nY_m\]
+| * \(X\) a ante \(i\)
+* \(Y\) a ante \(j\)
+| [cols=">.^"]
+!===
+! Trad. ! Stock. ! Esteq.
+!===
+|===
+====
+
+.Parts{counter2:index:0}
+|===
+|Part Id |Description
+
+|PX-{counter:index}
+|Description of PX-{index}
+
+|PX-{counter:index}
+|Description of PX-{index}
+|===
+
+== IDs, roles, and options
+
+[#goals.incremental]
+* Goal 1
+* Goal 2
+
+[id="goals-formal",role="incremental"]
+* Goal 1 (formal syntax)
+* Goal 2 (formal syntax)
+
+[#null-values]
+=== Explicit section ID (null values)
+
+[#id-name.role-name]`monospace text`
+
+[#free-world.goals]*free the world*
+
+[%header%footer%autowidth]
+|===
+|Header A |Header B
+|Footer A |Footer B
+|===
+
+[options="header,footer,autowidth"]
+|===
+|Header A |Header B
+|Footer A |Footer B
+|===
+
+== Breaks
+
+before
+
+'''
+
+after
+
+<<<
+
+== Text replacements
+
+* copyright: (C)
+* registered trademark: (R)
+* trademark: (TM)
+* em dash (between words): --
+* ellipses: ...
+* arrows: -> => <- <=
+* apostrophe: Sam's
+* XML entity (e.g., dagger): &#8224;
+
+== Escaping substitutions
+
+In /items/\{id}, the id attribute isn't replaced.
+
+\*Stars* isn't displayed as bold text.
+
+\§ appears as an entity reference.
+
+\=> The backslash prevents the equals sign followed by a greater
+than sign from combining to form a double arrow character (=>).
+
+\[[Word]] is not interpreted as an anchor.
+
+A word or phrase between single pluses, such as +/user/{id}+,
+is not substituted.
+
+An attribute reference within a word, such as dev++{conf}++,
+is not replaced.
+
++++<del>strike this</del>+++ is marked as deleted.
+
+pass:[<del>strike this</del>] is also marked as deleted.
+
+== Bibliography
+
+_The Pragmatic Programmer_ <<pp>> should be required reading for all developers.
+To learn all about design patterns, refer to the book by the "`Gang of Four`" <<gof>>.
+
+[bibliography]
+== References
+
+* [[[pp]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer:
+From Journeyman to Master. Addison-Wesley. 1999.
+* [[[gof,gang]]] Erich Gamma, Richard Helm, Ralph Johnson & John Vlissides.
+Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley. 1994.
+
+== Footnotes
+
+A statement.footnote:[Clarification about this statement.]
+
+A bold statement!footnote:disclaimer[Opinions are my own.]
+
+Another bold statement.footnote:disclaimer[]
+
+== Math
+
+Find the area under the graph of \$y = x^2\$ between \$x= 1\$ and \$x = 2\$.
+
+\[ \int_1^2 x^2 dx = \left[ \frac{x^3}{3} \right]_1^2 = \frac{2^3}{3} - \frac{1^3}{3} = \frac{7}{3} \]
+
+== Includes
+
+The following include directive pulls content from index.adoc (preamble and text formatting section):
+
+include::index.adoc[lines=10..18]
+
+// Other include forms from the quick reference:
+// include::basics.adoc[]
+// include::filename.txt[tag=definition]
+// include::filename.txt[lines=5..10]
+// include::https://raw.githubusercontent.com/asciidoctor/asciidoctor/main/README.adoc[]
+
+== Markdown compatibility
+
+// Markdown-style headings (optional Asciidoctor feature):
+// # Document Title (Level 0)
+// ## Section Level 1
+
+```ruby
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+```
+
+> I hold it that a little rebellion now and then is a good thing,
+> and as necessary in the political world as storms in the physical.
+> -- Thomas Jefferson, Papers of Thomas Jefferson: Volume 11
+
+> > What's new?
+>
+> I've got Markdown in my AsciiDoc!
+>
+> > Like what?
+>
+> * Blockquotes
+> * Headings
+> * Fenced code blocks
+>
+> > Is there more?
+>
+> Yep. AsciiDoc and Markdown share a lot of common syntax already.
+
+---
+
+- - -
+
+***
+
+* * *
+
+// This is a single-line comment and won't be rendered.
+
+////
+A multi-line comment.
+Notice it's a delimited block.
+////
+
+// Based on https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/[AsciiDoc Syntax Quick Reference]

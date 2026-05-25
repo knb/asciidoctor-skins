@@ -1,0 +1,813 @@
+= AsciiDoc 記法総合ショーケース
+山田 太郎 <doc.writer@email.org>; 鈴木 花子 <a.author@email.org>
+v1.0, 2026年5月26日, Asciidoctor 記法クイックリファレンスデモ
+:toc: left
+:toclevels: 3
+:icons: font
+:stem: latexmath
+:experimental:
+:source-highlighter: rouge
+:imagesdir: resources
+:url-home: https://asciidoctor.org
+:link-docs: https://docs.asciidoctor.org/asciidoc/latest/[ドキュメント]
+:summary: AsciiDoc は、メモ、記事、ドキュメント、書籍などを書くための成熟したプレーンテキスト形式です。 \
+また、HTML、DocBook、PDF、ePub など各種出力形式へ変換するテキスト処理エンジン兼ツールチェーンでもあります。
+:checkedbox: pass:normal[{startsb}&#10004;{endsb}]
+:quick-uri: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+:release-version: 2.4.3
+:homepage: https://example.org
+
+このドキュメントは、https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/[AsciiDoc 記法クイックリファレンス] で説明されている AsciiDoc 記法を網羅的に示します。
+スタイルシートのプレビュー用ページとして利用できます。
+
+{url-home}[Asciidoctor] を確認し、{link-docs} もお読みください。
+
+{summary}
+
+{checkedbox} 前文でも属性置換が機能します。
+
+[#paragraphs]
+== 段落
+
+AsciiDoc では段落に特別なマークアップは不要です。
+段落は 1 行以上の連続したテキスト行で定義されます。
+段落内の改行は表示されません。
+
+新しい段落を始めるには、少なくとも 1 行の空行を入れます。
+
+ リテラル段落です。
+ 先頭に 1 文字以上のスペースを入れた連続行で構成します。
+
+ 等幅フォントで表示され、空白は保持されます。
+
+Roses are red, +
+violets are blue.
+
+[%hardbreaks]
+ルビーは赤色です。
+Java は黒色です。
+
+[.lead]
+このテキストはリード段落（大きめのフォント）としてスタイルされます。
+
+この段落はリード段落としてスタイルされません。
+
+== テキストの書式
+
+=== 制約付き太字・斜体・等幅
+
+It has *strong* significance to me.
+
+I _cannot_ stress this enough.
+
+Type `OK` to accept.
+
+That *_really_* has to go.
+
+Can't pick one? Let's use them `*_all_*`.
+
+=== 制約なし太字・斜体・等幅
+
+**C**reate, **R**ead, **U**pdate, and **D**elete (CRUD)
+
+That's fan__freakin__tastic!
+
+Don't pass generic ``Object``s to methods that accept ``String``s!
+
+It was Beatle**__mania__**!
+
+=== ハイライト、下線、取り消し線、カスタムロール
+
+Mark my words, #automation is essential#.
+
+##Mark##up refers to text that contains formatting ##mark##s.
+
+Where did all the [.underline]#cores# go?
+
+We need [.line-through]#ten# twenty VMs.
+
+A [.myrole]#custom role# must be fulfilled by the theme.
+
+=== 上付き文字と下付き文字
+
+上付き文字^®^ と下付き文字: H~2~O。
+
+^super^script と ~sub~script のインライン例。
+
+=== スマートクォートとアポストロフィ
+
+"`double curved quotes`"
+
+'`single curved quotes`'
+
+Olaf's desk was a mess.
+
+A ``std::vector``'s size is the number of items it contains.
+
+All of the werewolves`' desks were a mess.
+
+Olaf had been with the company since the `'00s.
+
+== リンク
+
+https://asciidoctor.org - 自動リンク!
+
+https://asciidoctor.org[Asciidoctor]
+
+devel@discuss.example.org
+
+mailto:devel@discuss.example.org[Discuss]
+
+mailto:join@discuss.example.org[Subscribe,Subscribe me,I want to join!]
+
+https://chat.asciidoc.org[Discuss AsciiDoc,role=external,window=_blank]
+
+https://chat.asciidoc.org[Discuss AsciiDoc^]
+
+link:++https://example.org/?q=[a b]++[特殊文字を含む URL]
+
+https://example.org/?q=%5Ba%20b%5D[特殊文字を含む URL]
+
+link:index.html[Docs]
+
+link:\\server\share\whitepaper.pdf[Whitepaper]
+
+[[bookmark-a]]インラインアンカーにより、任意のコンテンツを参照可能にできます。
+
+[#bookmark-b]#インラインアンカーは、このようなフレーズに適用できます。#
+
+anchor:bookmark-c[]相互参照を使ってこの位置へリンクできます。
+
+[[bookmark-d,最後の段落]]xreflabel 属性は、相互参照リンクのテキストとして使われます。
+
+<<paragraphs>> を参照して段落の書き方を学んでください。
+
+<<section-titles,セクション>> にドキュメントを構成する方法を学んでください。
+
+xref:index-ja.adoc#_見出し[index-ja.adoc の見出し] を参照してください。
+
+xref:index-ja.adoc[index-ja.adoc] から戻ってこなければ、助けを送ります。
+
+これは属性参照 {quick-uri}[AsciiDoc クイックリファレンス^] へのリンクです。
+
+[#section-titles]
+== セクション見出し
+
+=== 第二レベルのセクション見出し
+
+==== 第三レベルのセクション見出し
+
+===== 第四レベルのセクション見出し
+
+====== 第五レベルのセクション見出し
+
+[discrete]
+=== 独立した見出しです!
+
+この段落は子要素ではなく、兄弟要素です。
+
+== リスト
+
+=== 順序なしリスト
+
+.順序なしリストのタイトル
+* リスト項目 1
+** ネストしたリスト項目
+*** さらに深いネスト項目
+* リスト項目 2
+ ** 別のネスト項目
+* リスト項目 3
+
+* レベル 1 リスト項目
+** レベル 2 リスト項目
+*** レベル 3 リスト項目
+**** レベル 4 リスト項目
+***** レベル 5 リスト項目
+* レベル 1 リスト項目
+
+=== 順序付きリスト
+
+.順序付きリストのタイトル
+. ステップ 1
+. ステップ 2
+.. ステップ 2a
+.. ステップ 2b
+. ステップ 3
+
+. レベル 1 リスト項目
+.. レベル 2 リスト項目
+... レベル 3 リスト項目
+.... レベル 4 リスト項目
+..... レベル 5 リスト項目
+. レベル 1 リスト項目
+
+任意のレベルの番号方式は、ブロック属性リストの最初の位置引数でスタイルを設定することで上書きできます。start 属性で開始番号も指定できます。
+
+["lowerroman", start=5]
+. Five
+. Six
+[loweralpha]
+.. a
+.. b
+.. c
+. Seven
+
+=== チェックリスト
+
+* [*] チェック済み
+* [x] こちらもチェック済み
+* [ ] 未チェック
+* 通常のリスト項目
+
+=== 説明リスト
+
+第一項:: 説明は用語と同じ行に置けます。
+第二項::
+第二項の説明です。
+説明は独立した行から始めることもできます。
+
+CPU:: コンピュータの中枢。
+Hard drive:: オペレーティングシステムやユーザーファイルの永続ストレージ。
+RAM:: CPU が動作中に使用する情報を一時的に保持する。
+
+.水平方向の説明リスト
+[horizontal]
+CPU:: コンピュータの中枢。
+Hard drive:: オペレーティングシステムやユーザーファイルの永続ストレージ。
+RAM:: CPU が動作中に使用する情報を一時的に保持する。
+
+.箇条書き付き説明リスト
+Diary::
+* 牛乳
+* 卵
+Bakery::
+* パン
+Produce::
+* バナナ
+
+=== 質問と回答リスト
+
+[qanda]
+答えは何ですか?::
+これが答えです。
+
+カメラは持ち込めますか?::
+リュックサックは持ち込めますか?::
+いいえ。
+
+=== 混在リスト
+
+.順序なしリストと順序付きリストの混在
+. Linux
+* Fedora
+* Ubuntu
+* Slackware
+. BSD
+* FreeBSD
+* NetBSD
+
+Operating Systems::
+  Linux:::
+    . Fedora
+      * Desktop
+    . Ubuntu
+      * Desktop
+      * Server
+  BSD:::
+    . FreeBSD
+    . NetBSD
+
+Cloud Providers::
+  PaaS:::
+    . OpenShift
+    . CloudBees
+  IaaS:::
+    . Amazon EC2
+    . Rackspace
+
+=== 複合コンテンツを含むリスト
+
+* 各リスト項目には少なくとも 1 つの段落があり、
+  ぶら下げインデントを含め折り返し可能です。
++
+追加の段落やブロックは、両方のブロックに隣接する行に
+リスト継続を置くことで接続します。
++
+list continuation:: 行単独のプラス記号 (`{plus}`)
+
+* リテラル段落にはリスト継続は不要です。
+
+ $ cd projects/my-book
+
+* AsciiDoc リストには任意の複合コンテンツを含められます。
++
+|===
+|列 1, ヘッダー行 |列 2, ヘッダー行
+
+|列 1, 行 1
+|列 2, 行 1
+|===
+
+== 画像
+
+image::picture.jpg[]
+
+image::picture.jpg[サンプル画像]
+
+.山の夕日
+[#img-sunset,caption="図 1: ",link=https://www.flickr.com/photos/javh/5448336655]
+image::picture.jpg[Sunset,200,100]
+
+image::https://asciidoctor.org/images/octocat.jpg[GitHub マスコット]
+
+image:picture.jpg[] をクリックして始めましょう。
+
+image:picture.jpg[title=Pause] をクリックして休憩しましょう。
+
+image:picture.jpg[Sunset,150,150,role=right] なんと美しい夕日でしょう!
+
+// ドキュメントヘッダーに :data-uri: を設定すると、画像を data URI として埋め込めます。
+
+== 音声と動画
+
+// 以下のマクロは記法のデモです。メディアファイルはリポジトリに含まれていない場合があります。
+
+audio::ocean-waves.wav[]
+
+audio::ocean-waves.wav[start=2,opts=autoplay]
+
+video::video-file.mp4[]
+
+video::video-file.mp4[width=640,start=2,opts=autoplay]
+
+video::RvRhUHTV_8k[youtube]
+
+video::67480300[vimeo]
+
+== キーボード、ボタン、メニューマクロ
+
+|===
+|ショートカット |用途
+
+|kbd:[F11]
+|全画面表示の切り替え
+
+|kbd:[Ctrl+T]
+|新しいタブを開く
+|===
+
+ファイルを保存するには、menu:File[Save] を選択します。
+
+menu:View[Zoom > Reset] を選択して、ズームレベルをデフォルトに戻します。
+
+btn:[OK] ボタンを押して完了してください。
+
+ファイルナビゲーターでファイルを選択し、btn:[Open] をクリックします。
+
+== リテラルとソースコード
+
+`+{backtick}+` や `+http://localhost:8080+` のようなリテラル等幅テキストは、バッククォートで囲んだプラス記号のペアで出力します。
+
+通常の行です。
+
+ 先頭に 1 スペースを入れるとリテラル行になります。
+
+通常の行です。
+
+....
+error: 1954 Forbidden search
+absolutely fatal: operation lost in the dodecahedron of doom
+
+Would you like to try again? y/n
+....
+
+.Gemfile.lock
+----
+GEM
+  remote: https://rubygems.org/
+  specs:
+    asciidoctor (2.0.15)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  asciidoctor (~> 2.0.15)
+----
+
+.Ruby コードの例
+[source,ruby]
+----
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+----
+
+[source,ruby]
+----
+require 'sinatra' // <1>
+
+get '/hi' do // <2>
+  "Hello World!" // <3>
+end
+----
+<1> ライブラリのインポート
+<2> URL マッピング
+<3> HTTP レスポンスボディ
+
+----
+line of code // <1>
+line of code # <2>
+line of code ;; <3>
+line of code <!--4-->
+----
+<1> C 系言語向けの行コメント付きコールアウト
+<2> Ruby、Python、Perl など向け
+<3> Clojure 向け
+<4> HTML など XML/SGML 言語向け
+
+[source,xml]
+<meta name="viewport"
+  content="width=device-width, initial-scale=1.0">
+
+ソース段落の後は通常コンテンツです。
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+  <groupId>org.asciidoctor</groupId>
+  <artifactId>asciidoctorj</artifactId>
+  <version>{release-version}</version>
+</dependency>
+----
+
+== 注意書き
+
+NOTE: 注意書きは読者の注意を補助情報に向けます。
+
+IMPORTANT: お子さまをお忘れなく!
+
+TIP: 橋の下にワープゾーンを探してください。
+
+CAUTION: 滑りやすいので注意!
+
+WARNING: 使用しようとしているソフトウェアは未テストです。
+
+[NOTE]
+.「NOTE」タイプの注意書き
+====
+これは注意書きブロックの例です。
+
+注意書き段落とは異なり、任意の AsciiDoc コンテンツを含められます。
+
+.リスト
+- one
+- two
+- three
+
+別の段落。
+====
+
+== 区切りブロック
+
+.例ブロックのタイトル
+====
+例ブロック内のコンテンツは通常の置換の対象になります。
+
+AsciiDoc ドキュメントのサンプル:
+
+----
+= Title of Document
+Doc Writer
+:toc:
+
+This guide provides...
+----
+====
+
+.オプションのタイトル
+****
+サイドバーは、本文を補足する補助的なコンテンツを
+視覚的に分離するために使います。
+****
+
+[#id-for-listing-block]
+.リスティングブロックのタイトル
+----
+リスティングブロック内のコンテンツは逐語的置換の対象になります。
+コード入力の保存によく使われます。
+----
+
+[quote,Abraham Lincoln,Address delivered at the dedication of the Cemetery at Gettysburg]
+____
+Four score and seven years ago our fathers brought forth
+on this continent a new nation...
+____
+
+[quote,Albert Einstein]
+A person who never made a mistake never tried anything new.
+
+____
+A person who never made a mistake never tried anything new.
+____
+
+[quote,Charles Lutwidge Dodgson,'Mathematician and author, also known as https://en.wikipedia.org/wiki/Lewis_Carroll[Lewis Carroll]']
+____
+If you don't know where you are going, any road will get you there.
+____
+
+"I hold it that a little rebellion now and then is a good thing,
+and as necessary in the political world as storms in the physical."
+-- Thomas Jefferson, Papers of Thomas Jefferson: Volume 11
+
+[verse,名 姓,詩のタイトルなど]
+____
+これは詩ブロックです。
+  詩ブロックでは字下げと改行が保持されます。
+____
+
+--
+オープンブロックは匿名コンテナとして機能するか、
+他の任意のブロックを装うことができます。
+--
+
+[source]
+--
+puts "I'm a source block!"
+--
+
+++++
+<p>
+パススルーブロック内のコンテンツは未処理のまま出力に渡されます。
+生の HTML を含めることができます。
+</p>
+++++
+
+== 表
+
+.表のタイトル
+|===
+|列 1, ヘッダー行 |列 2, ヘッダー行
+
+|列 1, 行 1
+|列 2, 行 1
+
+|列 1, 行 2
+|列 2, 行 2
+|===
+
+[%header,cols=2*]
+|===
+|列 1 の名前
+|列 2 の名前
+
+|列 1, 行 1
+|列 2, 行 1
+
+|列 1, 行 2
+|列 2, 行 2
+|===
+
+.アプリケーション
+[cols="1,1,2"]
+|===
+|名前 |カテゴリ |説明
+
+|Firefox
+|Browser
+|Mozilla Firefox はオープンソースの Web ブラウザです。
+標準準拠、性能、移植性を重視して設計されています。
+
+|Arquillian
+|Testing
+|革新的で高度に拡張可能なテストプラットフォームです。
+開発者が実際の自動テストを簡単に作成できます。
+|===
+
+[cols="2,2,5a"]
+|===
+|Firefox
+|Browser
+|Mozilla Firefox はオープンソースの Web ブラウザです。
+
+次の点を重視しています:
+
+* standards compliance
+* performance
+* portability
+
+https://getfirefox.com[Get Firefox]!
+|===
+
+,===
+Artist,Track,Genre
+
+Baauer,Harlem Shake,Hip Hop
+,===
+
+[%header,format=csv]
+|===
+Artist,Track,Genre
+Baauer,Harlem Shake,Hip Hop
+The Lumineers,Ho Hey,Folk Rock
+|===
+
+:===
+Artist:Track:Genre
+
+Robyn:Indestructible:Dance
+:===
+
+[cols="e,m,^,>s",width="25%"]
+|===
+|1 >s|2 |3 |4
+^|5 2.2+^.^|6 .3+<.>m|7
+^|8
+|9 2+>|10
+|===
+
+====
+.ネストした表を含む表
+[cols=".^,<.^a,>.^a"]
+|===
+| \[X_nY_m\]
+| * \(X\) a ante \(i\)
+* \(Y\) a ante \(j\)
+| [cols=">.^"]
+!===
+! Trad. ! Stock. ! Esteq.
+!===
+|===
+====
+
+.Parts{counter2:index:0}
+|===
+|部品 ID |説明
+
+|PX-{counter:index}
+|PX-{index} の説明
+
+|PX-{counter:index}
+|PX-{index} の説明
+|===
+
+== ID、ロール、オプション
+
+[#goals.incremental]
+* 目標 1
+* 目標 2
+
+[id="goals-formal",role="incremental"]
+* 目標 1（正式構文）
+* 目標 2（正式構文）
+
+[#null-values]
+=== 明示的なセクション ID（null 値）
+
+[#id-name.role-name]`monospace text`
+
+[#free-world.goals]*free the world*
+
+[%header%footer%autowidth]
+|===
+|Header A |Header B
+|Footer A |Footer B
+|===
+
+[options="header,footer,autowidth"]
+|===
+|Header A |Header B
+|Footer A |Footer B
+|===
+
+== 区切り
+
+before
+
+'''
+
+after
+
+<<<
+
+== テキスト置換
+
+* 著作権: (C)
+* 登録商標: (R)
+* 商標: (TM)
+* em ダッシュ（語間）: --
+* 省略記号: ...
+* 矢印: -> => <- <=
+* アポストロフィ: Sam's
+* XML エンティティ（例: ダガー）: &#8224;
+
+== 置換のエスケープ
+
+In /items/\{id}, the id attribute isn't replaced.
+
+\*Stars* isn't displayed as bold text.
+
+\§ appears as an entity reference.
+
+\=> The backslash prevents the equals sign followed by a greater
+than sign from combining to form a double arrow character (=>).
+
+\[[Word]] is not interpreted as an anchor.
+
++/user/{id}+ のように単一プラスで囲んだ語句は置換されません。
+
+dev++{conf}++ のように語中の属性参照も置換されません。
+
++++<del>strike this</del>+++ は削除済みとしてマークされます。
+
+pass:[<del>strike this</del>] も削除済みとしてマークされます。
+
+== 参考文献
+
+_The Pragmatic Programmer_ <<pp>> は開発者全員の必読書です。
+デザインパターンについては、"`Gang of Four`" <<gof>> の著書を参照してください。
+
+[bibliography]
+== 参考文献一覧
+
+* [[[pp]]] Andy Hunt & Dave Thomas. The Pragmatic Programmer:
+From Journeyman to Master. Addison-Wesley. 1999.
+* [[[gof,gang]]] Erich Gamma, Richard Helm, Ralph Johnson & John Vlissides.
+Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley. 1994.
+
+== 脚注
+
+ある声明です。footnote:[この声明に関する補足説明。]
+
+大胆な声明です!footnote:disclaimer[意見は個人のものです。]
+
+別の大胆な声明です。footnote:disclaimer[]
+
+== 数式
+
+\$y = x^2\$ のグラフ下の \$x= 1\$ から \$x = 2\$ までの面積を求めます。
+
+\[ \int_1^2 x^2 dx = \left[ \frac{x^3}{3} \right]_1^2 = \frac{2^3}{3} - \frac{1^3}{3} = \frac{7}{3} \]
+
+== インクルード
+
+以下の include ディレクティブは index-ja.adoc からコンテンツ（前文とテキスト書式セクション）を取り込みます:
+
+include::index-ja.adoc[lines=10..18]
+
+// クイックリファレンスのその他の include 形式:
+// include::basics.adoc[]
+// include::filename.txt[tag=definition]
+// include::filename.txt[lines=5..10]
+// include::https://raw.githubusercontent.com/asciidoctor/asciidoctor/main/README.adoc[]
+
+== Markdown 互換
+
+// Markdown 形式の見出し（Asciidoctor のオプション機能）:
+// # Document Title (Level 0)
+// ## Section Level 1
+
+```ruby
+require 'sinatra'
+
+get '/hi' do
+  "Hello World!"
+end
+```
+
+> I hold it that a little rebellion now and then is a good thing,
+> and as necessary in the political world as storms in the physical.
+> -- Thomas Jefferson, Papers of Thomas Jefferson: Volume 11
+
+> > What's new?
+>
+> I've got Markdown in my AsciiDoc!
+>
+> > Like what?
+>
+> * Blockquotes
+> * Headings
+> * Fenced code blocks
+>
+> > Is there more?
+>
+> Yep. AsciiDoc and Markdown share a lot of common syntax already.
+
+---
+
+- - -
+
+***
+
+* * *
+
+// これは単一行コメントで、レンダリングされません。
+
+////
+複数行コメントです。
+区切りブロックであることに注意してください。
+////
+
+// https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/[AsciiDoc 記法クイックリファレンス] に基づく
