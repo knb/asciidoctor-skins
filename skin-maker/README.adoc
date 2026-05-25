@@ -1,0 +1,155 @@
+= Skin Maker
+
+Skin Maker は AsciiDoc 用スタイルシートを *レイアウト* と *テーマ（フォント・色）* に分離して管理するツールです。
+
+== コンセプト
+
+[cols="1,2",options="header"]
+|===
+| レイヤ | 役割
+
+| `scss/layout/` | 見出し帯、TOC 配置、表・セクションの構造（確定後はあまり触らない）
+| `themes/*.yml` | 色・フォント・余白トークン（調整の主戦場）
+| `scss/_tokens.scss` | Sass 変数 → CSS カスタムプロパティ（`:root`）への変換
+| `scss/_base.scss` | Asciidoctor デフォルト CSS の import
+|===
+
+== レイアウトプリセット
+
+[cols="1,2",options="header"]
+|===
+| ID | 説明
+
+| `material` | 見出し帯 + サイドバー TOC（既存 material-* 系）
+| `plain` | シンプルなタイポグラフィ中心
+| `bootswatch` | 水平ナビバー TOC + ドキュメント左右マージン
+| `tufte` | セリフ体 + 広い余白（Tufte 風、ベース CSS 非依存）
+|===
+
+== セットアップ
+
+[source,bash]
+----
+bundle install
+----
+
+== ビジュアルエディタ
+
+ブラウザ上で色・フォントを調整し、YAML を書き出せます。
+
+[source,bash]
+----
+bundle exec rake editor:prepare
+----
+
+その後 `skin-maker/editor/index.html` をブラウザで開きます。
+
+機能:
+
+* レイアウト切り替え（material / plain / bootswatch / tufte）
+* 色・フォント・余白のライブプレビュー（`index2.html`）
+* テーマ YAML のダウンロード
+* CSS 変数ブロックのクリップボードコピー
+
+書き出した YAML は `themes/` に保存し、以下で CSS 化します:
+
+[source,bash]
+----
+bundle exec ruby skin-maker/bin/skin-maker generate themes/my-skin.yml
+bundle exec rake skins:build[my-skin]
+----
+
+== CLI の使い方
+
+=== 新しいスキンを作る
+
+[source,bash]
+----
+bundle exec ruby skin-maker/bin/skin-maker new my-brand --layout bootswatch
+# themes/my-brand.yml を編集
+bundle exec rake skins:rebuild
+----
+
+=== 既存 material テーマを一括再生成
+
+[source,bash]
+----
+bundle exec ruby skin-maker/bin/skin-maker themes:material
+----
+
+== Rake タスク
+
+[source,bash]
+----
+bundle exec rake editor:build       # css/editor/*.css + manifest.json
+bundle exec rake preview:index2     # index2.html を生成
+bundle exec rake editor:prepare     # 上記 2 つをまとめて実行
+bundle exec rake skins:generate     # themes/*.yml → scss/skins/*.scss
+bundle exec rake skins:build        # scss/skins/*.scss → css/*.css
+bundle exec rake skins:rebuild      # generate + build
+----
+
+== テーマ YAML の例
+
+[source,yaml]
+----
+name: my-brand
+layout: bootswatch
+fonts:
+  google: none
+  body: Helvetica Neue, Helvetica, Arial, sans-serif
+  heading: Helvetica Neue, Helvetica, Arial, sans-serif
+  mono: monospace
+colors:
+  main: "#FFFFFF"
+  primary: "#317eac"
+  sidebar: "#2fa4e7"
+  link: "#2fa4e7"
+  link_hover: "#157ab5"
+  text: "#555555"
+spacing:
+  body_margin_x: 10%
+  body_font_size: 14px
+  line_height: 1.42857143
+----
+
+== ディレクトリ構成
+
+[source]
+----
+scss/
+  layout/             # レイアウト（構造）
+  skins/              # スキンエントリ
+themes/
+  editor/             # エディタ用デフォルトテーマ
+  material-blue.yml
+skin-maker/
+  editor/             # ビジュアルエディタ (HTML/JS)
+  bin/skin-maker
+css/editor/           # エディタプレビュー用 CSS
+----
+
+== テーマ作成の参考サイト
+
+* https://themes.asciidoctor.org/preview/[Asciidoctor Themes Preview]
+* https://github.com/asciidoctor/asciidoctor-stylesheet-factory[asciidoctor-stylesheet-factory]
+* https://bootswatch.com/[Bootswatch]
+* https://edwardtufte.github.io/tufte-css/[Tufte CSS]
+* https://m2.material.io/design/color/the-color-system.html[Material Design Color System]
+* https://material-foundation.github.io/material-theme-builder/[Material Theme Builder]
+* https://coolors.co/[Coolors]
+* https://realtimecolors.com/[Realtime Colors]
+* https://open-props.style/[Open Props]
+* https://fonts.google.com/[Google Fonts]
+* `css/template.css` — セレクタ一覧（デバッグ色付き）
+
+== 既存スキンとの関係
+
+`css/` 直下のレガシースキン（`boot-*`, `adoc-*`, `tufte` など）はそのまま残っています。
+Skin Maker で生成した CSS は同じ `css/` に出力され、`:stylesheet:` 属性や switcher から利用できます。
+
+今後の拡張案:
+
+* switcher.js マニフェストの自動生成
+* サーバー側 YAML → CSS コンパイル API
+* sidenote 対応 tufte レイアウトの拡張

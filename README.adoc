@@ -44,6 +44,33 @@ You can now add a JS switcher to any document to quickly preview the contents re
 
     <script src="https://darshandsoni.com/asciidoctor-skins/switcher.js" type="text/javascript"></script>
 
+== Skin Maker (Sass)
+
+This repository includes a link:skin-maker/README.adoc[Ruby + Sass skin maker] that separates *layout* (structure) from *theme* (colors and fonts).
+
+.Quick start
+[source,bash]
+----
+bundle install
+bundle exec ruby skin-maker/bin/skin-maker new my-brand --layout material
+# edit themes/my-brand.yml
+bundle exec rake skins:rebuild
+----
+
+Generated CSS is written to `css/`. See link:skin-maker/README.adoc[skin-maker/README.adoc] for theme YAML format and design references.
+
+=== Visual editor
+
+Open link:skin-maker/editor/index.html[skin-maker/editor/index.html] in a browser after preparing assets:
+
+[source,bash]
+----
+bundle exec rake editor:prepare
+# then open skin-maker/editor/index.html
+----
+
+The editor provides live preview on `index2.html`, layout switching (`material`, `plain`, `bootswatch`, `tufte`), and YAML export.
+
 == Skins
 
 Note: To preview all of them, visit the https://darshandsoni.com/asciidoctor-skins/screenshots/[screenshots] page.

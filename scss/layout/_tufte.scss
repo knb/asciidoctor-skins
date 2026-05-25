@@ -1,0 +1,193 @@
+// Tufte-inspired layout: serif typography, generous margins, minimal decoration.
+// Does not import Asciidoctor base — layout is self-contained for this preset.
+
+@mixin apply {
+  html {
+    font-size: var(--body-font-size);
+  }
+
+  body {
+    width: 87.5%;
+    max-width: var(--content-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 12.5%;
+    font-family: var(--font-body);
+    background-color: var(--color-main);
+    color: var(--color-text);
+    line-height: var(--line-height);
+  }
+
+  #header > h1,
+  h1 {
+    font-weight: 400;
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+    font-size: 3.2rem;
+    line-height: 1;
+    color: var(--color-text);
+    background: none;
+    padding: 0;
+  }
+
+  h2 {
+    font-style: italic;
+    font-weight: 400;
+    margin-top: 2.1rem;
+    margin-bottom: 0;
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--color-text);
+    background: none;
+    padding: 0;
+  }
+
+  h3 {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.7rem;
+    margin-top: 2rem;
+    margin-bottom: 0;
+    line-height: 1;
+    color: var(--color-text);
+    background: none;
+    padding: 0;
+  }
+
+  h4,
+  h5,
+  h6 {
+    color: var(--color-primary);
+    background: none;
+    padding: 0;
+  }
+
+  .title {
+    color: var(--color-text) !important;
+    font-family: var(--font-body);
+  }
+
+  p,
+  ol,
+  ul,
+  .paragraph {
+    font-size: 1.4rem;
+    line-height: 2rem;
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-link-hover);
+  }
+
+  blockquote {
+    font-size: 1.4rem;
+    width: 45%;
+    border-left: 0;
+    padding-left: 0;
+    margin-left: 0;
+    color: var(--color-secondary);
+  }
+
+  hr {
+    display: block;
+    height: 1px;
+    width: 50%;
+    border: 0;
+    border-top: 1px solid var(--color-text);
+    margin: 2em auto;
+    padding: 0;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+  }
+
+  code {
+    background-color: var(--color-code-bg);
+    padding: 0.1em 0.2em;
+  }
+
+  pre {
+    width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
+    background-color: var(--color-code-bg);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.2rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  th {
+    text-align: left;
+    color: var(--color-text);
+    background: none;
+  }
+
+  #toc.toc2 {
+    position: static;
+    width: auto;
+    background: none;
+    border: 1px solid var(--color-border);
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  #toctitle {
+    color: var(--color-text);
+    font-size: var(--toc-title-size);
+    font-weight: 600;
+  }
+
+  #toc.toc2 a {
+    color: var(--color-link);
+  }
+
+  #footer {
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-secondary);
+    background: none;
+  }
+
+  .admonitionblock {
+    margin: 1.5rem 0;
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1rem;
+  }
+
+  video,
+  img {
+    max-width: 100%;
+  }
+
+  @media all and (max-width: 760px) {
+    body {
+      width: 100%;
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+
+    blockquote {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,92 @@
+// Plain layout: typography and TOC emphasis without filled heading bands.
+
+@mixin apply {
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-main);
+    color: var(--color-black);
+  }
+
+  h1 {
+    color: var(--color-primary) !important;
+    font-family: var(--font-heading);
+  }
+
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-secondary) !important;
+    font-family: var(--font-heading);
+  }
+
+  .title {
+    color: var(--color-black) !important;
+    font-family: var(--font-heading);
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    font-family: var(--font-body) !important;
+  }
+
+  #toc.toc2 a:link {
+    color: var(--color-link);
+  }
+
+  blockquote {
+    color: var(--color-secondary) !important;
+  }
+
+  .quoteblock {
+    color: var(--color-black);
+  }
+
+  .quoteblock blockquote::before {
+    color: var(--color-black);
+  }
+
+  code {
+    color: var(--color-white);
+    background-color: var(--color-secondary) !important;
+  }
+
+  mark {
+    background-color: var(--color-tertiary);
+  }
+
+  th {
+    background-color: var(--color-main);
+    color: var(--color-black) !important;
+  }
+
+  td {
+    background-color: var(--color-main);
+    color: var(--color-black) !important;
+  }
+
+  #toc.toc2 {
+    background-color: var(--color-sidebar);
+  }
+
+  #toctitle {
+    color: var(--color-white);
+  }
+
+  video {
+    max-width: 100%;
+  }
+
+  @media all and (max-width: 600px) {
+    table {
+      width: 55vw !important;
+      font-size: 3vw;
+    }
+  }
+}

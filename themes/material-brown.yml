@@ -1,0 +1,17 @@
+---
+name: material-brown
+layout: material
+fonts:
+  google: Noto+Sans
+  body: '"Noto Sans", sans-serif'
+  heading: '"Noto Sans", sans-serif'
+colors:
+  main: "#FFFFFF"
+  primary: "#795548"
+  secondary: "#ba3925"
+  tertiary: "#186d7a"
+  sidebar: "#3E2723"
+  link: "#BCAAA4"
+  link_alt: "#f44336"
+  white: "#FFFFFF"
+  black: "#000000"

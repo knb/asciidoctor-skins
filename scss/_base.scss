@@ -1,0 +1,4 @@
+// Asciidoctor base framework and web fonts.
+// Font family is injected per skin via --font-body / --font-heading CSS variables.
+
+@import url(https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css);

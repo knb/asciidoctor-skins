@@ -1,0 +1,33 @@
+---
+name: editor-bootswatch
+layout: bootswatch
+fonts:
+  google: Noto+Sans
+  body: Noto Sans, sans-serif
+  heading: Noto Sans, sans-serif
+  mono: monospace
+colors:
+  main: "#FFFFFF"
+  primary: "#2196F3"
+  secondary: "#ba3925"
+  tertiary: "#186d7a"
+  sidebar: "#0D47A1"
+  link: "#90CAF9"
+  link_hover: "#0D47A1"
+  text: "#000000"
+  border: "#EEEEEE"
+  code_bg: "#F5F5F5"
+  table_stripe: "#F9F9F9"
+  footer_text: "#FFFFFF"
+  link_alt: "#f44336"
+  white: "#FFFFFF"
+  black: "#000000"
+spacing:
+  body_margin_x: 0
+  body_font_size:
+  line_height:
+  header_padding: 25px
+  heading_padding: 10px
+  sect_border_radius: 8px
+  toc_title_size: 16px
+  content_max_width:

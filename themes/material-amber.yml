@@ -1,0 +1,17 @@
+---
+name: material-amber
+layout: material
+fonts:
+  google: Noto+Sans
+  body: '"Noto Sans", sans-serif'
+  heading: '"Noto Sans", sans-serif'
+colors:
+  main: "#FFFFFF"
+  primary: "#FFC107"
+  secondary: "#ba3925"
+  tertiary: "#186d7a"
+  sidebar: "#FF6F00"
+  link: "#FFE082"
+  link_alt: "#f44336"
+  white: "#FFFFFF"
+  black: "#000000"

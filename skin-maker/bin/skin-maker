@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+require_relative '../lib/skin_maker'
+
+options = { layout: 'material' }
+command = ARGV.shift
+
+parser = OptionParser.new do |opts|
+  opts.banner = <<~BANNER
+    Usage:
+      bin/skin-maker new NAME [--layout material|plain|bootswatch|tufte]
+      bin/skin-maker generate themes/NAME.yml
+      bin/skin-maker build [NAME]
+      bin/skin-maker themes:material   # regenerate all material-* theme YAML skins
+  BANNER
+
+  opts.on('--layout LAYOUT', 'Layout preset (material, plain, bootswatch, tufte)') { |v| options[:layout] = v }
+end
+
+parser.parse!
+
+case command
+when 'new'
+  name = ARGV.shift or abort('Missing skin name')
+  SkinMaker.scaffold!(name, layout: options[:layout])
+when 'generate'
+  path = ARGV.shift or abort('Missing theme YAML path')
+  SkinMaker.generate_from_theme!(File.expand_path(path))
+  puts "Regenerated scss/skins from #{path}"
+when 'build'
+  if (name = ARGV.shift)
+    SkinMaker.compile!(name)
+  else
+    SkinMaker.compile_all!
+  end
+when 'themes:material'
+  Dir.glob(File.join(SkinMaker::THEMES_DIR, 'material-*.yml')).sort.each do |path|
+    SkinMaker.generate_from_theme!(path)
+    puts "  generated from #{File.basename(path)}"
+  end
+  SkinMaker.compile_all!
+else
+  puts parser
+  exit 1
+end

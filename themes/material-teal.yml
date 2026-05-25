@@ -1,0 +1,17 @@
+---
+name: material-teal
+layout: material
+fonts:
+  google: Noto+Sans
+  body: '"Noto Sans", sans-serif'
+  heading: '"Noto Sans", sans-serif'
+colors:
+  main: "#FFFFFF"
+  primary: "#009688"
+  secondary: "#ba3925"
+  tertiary: "#186d7a"
+  sidebar: "#004d40"
+  link: "#80cbc4"
+  link_alt: "#f44336"
+  white: "#FFFFFF"
+  black: "#000000"

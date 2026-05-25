@@ -1,0 +1,122 @@
+@use 'sass:list';
+
+// Semantic design tokens → CSS custom properties.
+
+$color-main: #ffffff !default;
+$color-primary: #2196f3 !default;
+$color-secondary: #ba3925 !default;
+$color-tertiary: #186d7a !default;
+$color-sidebar: #0d47a1 !default;
+$color-link: #90caf9 !default;
+$color-link-alt: #f44336 !default;
+$color-link-hover: null !default;
+$color-white: #ffffff !default;
+$color-black: #000000 !default;
+$color-text: null !default;
+$color-border: #eeeeee !default;
+$color-code-bg: #f5f5f5 !default;
+$color-table-stripe: #f9f9f9 !default;
+$color-footer-text: null !default;
+
+$font-body: ('Noto Sans', sans-serif) !default;
+$font-heading: $font-body !default;
+$font-google: 'Noto+Sans' !default;
+$font-mono: (monospace) !default;
+
+$header-padding: 25px !default;
+$heading-padding: 10px !default;
+$sect-border-radius: 8px !default;
+$toc-title-size: 16px !default;
+$body-margin-x: 0 !default;
+$body-font-size: null !default;
+$line-height: null !default;
+$content-max-width: null !default;
+
+@function _color-text() {
+  @if $color-text {
+    @return $color-text;
+  }
+
+  @return $color-black;
+}
+
+@function _color-link-hover() {
+  @if $color-link-hover {
+    @return $color-link-hover;
+  }
+
+  @return $color-sidebar;
+}
+
+@function _color-footer-text() {
+  @if $color-footer-text {
+    @return $color-footer-text;
+  }
+
+  @return $color-white;
+}
+
+@mixin emit-root-tokens {
+  :root {
+    --color-main: #{$color-main};
+    --color-primary: #{$color-primary};
+    --color-secondary: #{$color-secondary};
+    --color-tertiary: #{$color-tertiary};
+    --color-sidebar: #{$color-sidebar};
+    --color-link: #{$color-link};
+    --color-link-alt: #{$color-link-alt};
+    --color-link-hover: #{_color-link-hover()};
+    --color-white: #{$color-white};
+    --color-black: #{$color-black};
+    --color-text: #{_color-text()};
+    --color-border: #{$color-border};
+    --color-code-bg: #{$color-code-bg};
+    --color-table-stripe: #{$color-table-stripe};
+    --color-footer-text: #{_color-footer-text()};
+    --font-body: #{css-font-stack($font-body)};
+    --font-heading: #{css-font-stack($font-heading)};
+    --font-mono: #{css-font-stack($font-mono)};
+    --header-padding: #{$header-padding};
+    --heading-padding: #{$heading-padding};
+    --sect-border-radius: #{$sect-border-radius};
+    --toc-title-size: #{$toc-title-size};
+    --body-margin-x: #{$body-margin-x};
+
+    @if $body-font-size {
+      --body-font-size: #{$body-font-size};
+    } @else {
+      --body-font-size: inherit;
+    }
+
+    @if $line-height {
+      --line-height: #{$line-height};
+    } @else {
+      --line-height: inherit;
+    }
+
+    @if $content-max-width {
+      --content-max-width: #{$content-max-width};
+    } @else {
+      --content-max-width: none;
+    }
+  }
+}
+
+@function css-font-stack($fonts) {
+  $family: list.nth($fonts, 1);
+  $output: '"#{$family}"';
+
+  @if list.length($fonts) > 1 {
+    @for $i from 2 through list.length($fonts) {
+      $output: '#{$output}, #{list.nth($fonts, $i)}';
+    }
+  }
+
+  @return $output;
+}
+
+@mixin emit-font-import {
+  @if $font-google and $font-google != 'none' {
+    @import url(//fonts.googleapis.com/css?family=#{$font-google});
+  }
+}

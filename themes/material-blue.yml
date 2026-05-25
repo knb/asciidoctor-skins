@@ -1,0 +1,17 @@
+---
+name: material-blue
+layout: material
+fonts:
+  google: Noto+Sans
+  body: '"Noto Sans", sans-serif'
+  heading: '"Noto Sans", sans-serif'
+colors:
+  main: "#FFFFFF"
+  primary: "#2196F3"
+  secondary: "#ba3925"
+  tertiary: "#186d7a"
+  sidebar: "#0D47A1"
+  link: "#90CAF9"
+  link_alt: "#f44336"
+  white: "#FFFFFF"
+  black: "#000000"

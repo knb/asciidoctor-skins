@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asciidoctor Skin Maker</title>
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Asciidoctor Skin Maker</h1>
+      <p class="subtitle">レイアウトを選び、色とフォントを調整して YAML を書き出します。</p>
+    </div>
+    <div class="header-actions">
+      <button type="button" id="btn-reset">リセット</button>
+      <button type="button" id="btn-export-yaml" class="primary">YAML をダウンロード</button>
+      <button type="button" id="btn-export-css" class="secondary">CSS 変数をコピー</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <aside class="panel controls">
+      <section>
+        <h2>スキン</h2>
+        <label>
+          スキン名
+          <input type="text" id="skin-name" value="my-skin" placeholder="my-skin">
+        </label>
+        <label>
+          レイアウト
+          <select id="layout-select"></select>
+        </label>
+        <p id="layout-description" class="hint"></p>
+      </section>
+
+      <section>
+        <h2>フォント</h2>
+        <div id="font-fields" class="field-grid"></div>
+      </section>
+
+      <section>
+        <h2>色</h2>
+        <div id="color-fields" class="field-grid"></div>
+      </section>
+
+      <section>
+        <h2>サイズ・余白</h2>
+        <div id="spacing-fields" class="field-grid"></div>
+      </section>
+
+      <section class="commands">
+        <h2>ビルド手順</h2>
+        <pre id="build-instructions"></pre>
+      </section>
+    </aside>
+
+    <section class="panel preview">
+      <div class="preview-toolbar">
+        <span>プレビュー: <code id="preview-path">index2.html</code></span>
+        <a id="open-preview" href="../index2.html" target="_blank" rel="noopener">新しいタブで開く</a>
+      </div>
+      <iframe id="preview-frame" title="Skin preview" src="../index2.html"></iframe>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

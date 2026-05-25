@@ -1,0 +1,17 @@
+---
+name: plain-generated
+layout: plain
+fonts:
+  google: Noto+Sans
+  body: '"Noto Sans", sans-serif'
+  heading: '"Noto Sans", sans-serif'
+colors:
+  main: "#FFFFFF"
+  primary: "#000000"
+  secondary: "#AAAAAA"
+  tertiary: "#CCCCCC"
+  sidebar: "#CACACA"
+  link: "#0D47A1"
+  link_alt: "#B71C1C"
+  white: "#FFFFFF"
+  black: "#000000"
