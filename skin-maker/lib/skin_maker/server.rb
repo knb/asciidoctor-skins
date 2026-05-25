@@ -5,6 +5,7 @@ require 'webrick'
 module SkinMaker
   class Server
     DEFAULT_PORT = 8765
+    COMPILE_API_PATH = '/skin-maker/api/compile'
 
     def self.start!(root: SkinMaker::ROOT, port: DEFAULT_PORT, open_browser: false)
       url = "http://127.0.0.1:#{port}/skin-maker/editor/index.html"
@@ -17,6 +18,8 @@ module SkinMaker
         AccessLog: []
       )
 
+      server.mount(COMPILE_API_PATH, CompileServlet)
+
       trap('INT') { server.shutdown }
 
       if open_browser
@@ -27,6 +30,7 @@ module SkinMaker
       end
 
       puts "Skin Maker: #{url}"
+      puts "CSS compile API: http://127.0.0.1:#{port}#{COMPILE_API_PATH}"
       puts 'Press Ctrl+C to stop.'
       server.start
     end

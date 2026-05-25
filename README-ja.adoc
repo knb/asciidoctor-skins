@@ -1,0 +1,155 @@
+// Settings:
+:experimental:
+ifndef::env-github[:icons: font]
+ifdef::env-github,env-browser[]
+endif::[]
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :paperclip:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+---
+
+言語: link:README.adoc[English] | 日本語
+
+= asciidoctor-skins: Asciidoctor 用 CSS スタイルシート
+
+本リポジトリは https://github.com/darshandsoni/asciidoctor-skins[asciidoctor-skins] のフォークです。link:skin-maker/README.adoc[Skin Maker] ツールチェーンを追加し、GitHub Pages で公開しています。
+
+Markdown は手軽で、短いメモや基本的な構造のページに向いています。Asciidoctor はより表現力が高く、Asciidoc / Asciidoctor なら細かい制御も容易です。Asciidoctor にはすでに整ったデフォルトスタイルシートが付属しており、多くの場合はこれで十分です。
+
+本リポジトリは、スタイルシートを一から書かずに別の見た目を試したいユーザー向けです。各スキンは Asciidoctor のデフォルト CSS を取り込んだうえで、必要な要素だけを上書きします。
+
+== GitHub Pages
+
+* **スキンプレビュー:** https://larento.github.io/asciidoctor-skins/[larento.github.io/asciidoctor-skins]
+* **Skin Maker エディタ:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[ビジュアルエディタを開く]
+
+サイトは `main` ブランチからデプロイされます。push のたびに CI が `bundle exec rake editor:prepare` を実行し、プレビュー HTML とソースマップを生成してから公開します。
+
+NOTE: プロジェクトサイトのため URL は `/asciidoctor-skins/` プレフィックス付きです。上記リンクを利用してください。
+
+== Skin Maker ビジュアルエディタ
+
+ブラウザ上でレイアウトを選び、色・フォント・余白を調整し、プレビューしながらテーマ YAML を書き出せます。YAML を直接編集せず Skin Maker を試す最短ルートです。
+
+**GitHub Pages で開く:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker エディタ]
+
+=== 機能
+
+* UI 言語: English（デフォルト）/ 日本語
+* レイアウト切り替え: `material`, `plain`, `bootswatch`, `tufte`
+* ライブプレビュー: `index2.html`（英語）/ `index2-ja.html`（日本語）
+* ソース Inspect: プレビュー要素をクリックして対応する AsciiDoc ソースを表示
+* テーマ YAML のダウンロード
+* CSS カスタムプロパティブロックのクリップボードコピー
+* ローカルサーバー起動時の完成 CSS ダウンロード（下記参照）
+
+=== GitHub Pages 上での利用
+
+GitHub Pages ではライブプレビュー、ソース Inspect、YAML 書き出し、CSS 変数のコピーが利用できます。
+
+WARNING: GitHub Pages では Sass コンパイル API を実行できません。**CSS ダウンロードはオンラインでは利用できません。** エディタから YAML をダウンロードし、ローカルで CSS をビルドする（<<local-build>>）か、ローカルサーバーを起動してください。
+
+=== ローカルでの起動
+
+CSS ダウンロードを含む全機能を使うには、同梱の WEBrick サーバーを起動します:
+
+[source,bash]
+----
+bundle install
+bundle exec rake editor:open
+----
+
+`editor:open` はエディタ用アセットの生成、プレビュー HTML のレンダリング、ポート `8765` でのサーバー起動、ブラウザ表示まで行います。
+
+別の起動方法:
+
+[source,bash]
+----
+bundle exec rake editor:prepare
+bundle exec rake editor:serve
+# http://127.0.0.1:8765/skin-maker/editor/index.html を開く
+----
+
+CAUTION: `skin-maker/editor/index.html` を `file://` で直接開く（例: `xdg-open skin-maker/editor/index.html`）とライブプレビューは動きません。ブラウザはローカルファイルに対する `fetch` や iframe アクセスを制限します。色の編集と YAML 書き出しは可能ですが、プレビューとソース Inspect には HTTP が必要です。
+
+[[local-build]]
+=== テーマを書き出したあと
+
+ダウンロードした YAML を `themes/` に保存し、CSS を生成します:
+
+[source,bash]
+----
+bundle exec ruby skin-maker/bin/skin-maker generate themes/my-skin.yml
+bundle exec rake skins:build[my-skin]
+----
+
+テーマ YAML の形式、CLI、設計の詳細は link:skin-maker/README.adoc[skin-maker/README.adoc] を参照してください。
+
+== 基本的な使い方
+
+Asciidoctor を初めて使う場合は、https://asciidoctor.org/[公式サイト] を参照してください。
+
+IMPORTANT: `.adoc` ファイルを用意したら、link:css/asciidoctor.css[asciidoctor.css] と使いたいスキン CSS をプロジェクトに置きます。
+
+1. `.adoc` に `:stylesheet: Your_Chosen_Stylesheet.css` を追加
+2. `asciidoctor sample.adoc` で HTML を生成
+3. ブラウザで確認
+
+== デモ
+
+スキン一覧のプレビューは、上流の https://darshandsoni.com/asciidoctor-skins[オンラインデモ] または本フォークの https://larento.github.io/asciidoctor-skins/[GitHub Pages] で確認できます。
+
+URL 末尾に `?` と CSS ファイル名を付けると表示スキンを切り替えられます。例: `?material`
+
+== カスタムプレビュー（JS スイッチャー）
+
+任意の Asciidoctor 生成 HTML の `<body>` 内に次の行を追加すると、スキンを切り替えてプレビューできます:
+
+    <script src="https://darshandsoni.com/asciidoctor-skins/switcher.js" type="text/javascript"></script>
+
+== Skin Maker (Sass)
+
+*レイアウト*（構造）と *テーマ*（色・フォント）を分離する link:skin-maker/README.adoc[Ruby + Sass 製 Skin Maker] が同梱されています。
+
+.クイックスタート
+[source,bash]
+----
+bundle install
+bundle exec ruby skin-maker/bin/skin-maker new my-brand --layout material
+# themes/my-brand.yml を編集
+bundle exec rake skins:rebuild
+----
+
+生成 CSS は `css/` に出力されます。対話的な調整には link:https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[ビジュアルエディタ]、直接編集には YAML ファイルを利用してください。
+
+== スキン一覧
+
+スキン一覧のスクリーンショット: https://darshandsoni.com/asciidoctor-skins/screenshots/
+
+利用可能なスタイルシートの詳細リストは link:README.adoc[English README] を参照してください（リンク先は英語表記です）。
+
+== ブックマークレット
+
+アドレスバーに次の JavaScript を貼り付けると、任意の Asciidoctor ページにスキン切り替えメニューを追加できます。詳細は https://darshandsoni.com/asciidoctor-skins/#_bookmarklet[デモページ] を参照してください。
+
+== 貢献
+
+スタイルシートの追加・改善の pull request を歓迎します。`template.css` を編集するか、新規 CSS を作成してください。
+
+=== ライセンス同意
+
+本リポジトリへの貢献は https://github.com/darshandsoni/asciidoctor-skins/blob/gh-pages/LICENSE[MIT ライセンス] の下で提供されるものとします。
+
+== クレジット
+
+* デモ: https://github.com/cbracco/html5-test-page[html5-test-page] (@cbracco)
+* JS スイッチャー: https://github.com/dohliam/dropin-minimal-css[dropin-minimal-css]
+
+== ライセンス
+
+MIT

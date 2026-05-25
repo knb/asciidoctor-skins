@@ -1,19 +1,16 @@
 const SETTING_GROUPS = [
   {
     id: 'skin',
-    label: 'スキン',
     open: true,
     type: 'skin'
   },
   {
     id: 'fonts',
-    label: 'フォント',
     open: true,
     items: [{ group: 'fonts', keys: ['google', 'body', 'heading', 'mono'] }]
   },
   {
     id: 'body',
-    label: '本文',
     open: true,
     items: [
       { group: 'colors', keys: ['main', 'text'] },
@@ -22,7 +19,6 @@ const SETTING_GROUPS = [
   },
   {
     id: 'headings',
-    label: '見出し',
     open: false,
     items: [
       { group: 'colors', keys: ['primary', 'secondary', 'tertiary'] },
@@ -31,7 +27,6 @@ const SETTING_GROUPS = [
   },
   {
     id: 'sidebar',
-    label: 'サイドバー / TOC',
     open: false,
     items: [
       { group: 'colors', keys: ['sidebar'] },
@@ -40,7 +35,6 @@ const SETTING_GROUPS = [
   },
   {
     id: 'header-footer',
-    label: 'ヘッダー / フッター',
     open: false,
     items: [
       { group: 'colors', keys: ['footer_text'] },
@@ -49,13 +43,11 @@ const SETTING_GROUPS = [
   },
   {
     id: 'links',
-    label: 'リンク',
     open: false,
     items: [{ group: 'colors', keys: ['link', 'link_hover', 'link_alt'] }]
   },
   {
     id: 'tables-code',
-    label: '表 / コード',
     open: false,
     items: [
       { group: 'colors', keys: ['border', 'code_bg', 'table_stripe'] },
@@ -64,47 +56,12 @@ const SETTING_GROUPS = [
   },
   {
     id: 'misc',
-    label: 'その他',
     open: false,
     items: [{ group: 'colors', keys: ['white', 'black'] }]
   }
 ];
 
-const LABELS = {
-  colors: {
-    main: '背景',
-    primary: 'プライマリ',
-    secondary: 'セカンダリ',
-    tertiary: '第三色',
-    sidebar: 'サイドバー背景',
-    link: 'リンク',
-    link_alt: 'リンク（代替）',
-    link_hover: 'リンク（ホバー）',
-    text: '本文テキスト',
-    border: 'ボーダー',
-    code_bg: 'コード背景',
-    table_stripe: '表ストライプ',
-    footer_text: 'フッター文字',
-    white: '白',
-    black: '黒'
-  },
-  fonts: {
-    google: 'Google Fonts（+区切り）',
-    body: '本文フォント',
-    heading: '見出しフォント',
-    mono: '等幅フォント'
-  },
-  spacing: {
-    header_padding: 'ヘッダー余白',
-    heading_padding: '見出し余白',
-    sect_border_radius: 'セクション角丸',
-    toc_title_size: 'TOC タイトルサイズ',
-    body_margin_x: '左右マージン',
-    body_font_size: '本文フォントサイズ',
-    line_height: '行間',
-    content_max_width: '最大コンテンツ幅'
-  }
-};
+const COMPILE_API_PATH = '/skin-maker/api/compile';
 
 const state = {
   manifest: null,
@@ -113,35 +70,8 @@ const state = {
   sourceMap: null,
   sourceInspect: false,
   selectedSourceId: null,
+  compileApiAvailable: false,
   theme: null
-};
-
-const KIND_LABELS = {
-  'document-title': 'ドキュメントヘッダー',
-  section: 'セクション見出し',
-  paragraph: '段落',
-  literal: 'リテラル段落',
-  listing: 'ソースコード',
-  image: '画像',
-  table: '表',
-  quote: '引用',
-  example: '例',
-  sidebar: 'サイドバー',
-  admonition: 'アドモニション',
-  olist: '番号付きリスト',
-  ulist: '箇条書き',
-  dlist: '説明リスト',
-  hdlist: '横並びリスト',
-  colist: '番号付きコメント',
-  verse: '詩',
-  open: 'オープンブロック',
-  pass: 'パススルー',
-  stem: '数式',
-  thematic_break: '区切り線',
-  page_break: '改ページ',
-  floating_title: '独立見出し',
-  video: '動画',
-  audio: '音声'
 };
 
 const settingsContainer = document.getElementById('settings-container');
@@ -159,12 +89,18 @@ const sourceOpenAdoc = document.getElementById('source-open-adoc');
 const sourceCopyButton = document.getElementById('source-copy');
 const openPreview = document.getElementById('open-preview');
 const fileProtocolBanner = document.getElementById('file-protocol-banner');
+const compileApiBanner = document.getElementById('compile-api-banner');
+const exportCssFileButton = document.getElementById('btn-export-css-file');
+const localeSelect = document.getElementById('locale-select');
 
 const INSPECT_STYLE_ID = 'skin-maker-inspect-style';
 
 let skinNameInput;
 let layoutSelect;
 let layoutDescription;
+let skinSectionSummary;
+let skinNameLabel;
+let layoutLabel;
 
 const EDITOR_PATH_MARKER = '/skin-maker/editor/';
 
@@ -285,7 +221,94 @@ async function loadSourceMap() {
 }
 
 function kindLabel(kind) {
-  return KIND_LABELS[kind] || kind;
+  const label = t(`kinds.${kind}`);
+  return label === `kinds.${kind}` ? kind : label;
+}
+
+function layoutDescriptionText(layoutId) {
+  const localized = t(`layout.${layoutId}.description`);
+  if (localized !== `layout.${layoutId}.description`) {
+    return localized;
+  }
+  return state.manifest?.layouts?.[layoutId]?.description || '';
+}
+
+function previewDocLabel(page) {
+  const localized = t(`previewDoc.${page.id}`);
+  return localized !== `previewDoc.${page.id}` ? localized : page.label;
+}
+
+function renderBanners() {
+  const serveUrl = resolveUrl('/skin-maker/editor/index.html');
+  fileProtocolBanner.innerHTML = `<strong>${t('banner.fileProtocolTitle')}</strong> ${formatMessage(t('banner.fileProtocolHtml'), { serveUrl })}`;
+  compileApiBanner.innerHTML = `<strong>${t('banner.compileApiTitle')}</strong> ${t('banner.compileApiHtml')}`;
+}
+
+function applyStaticUi() {
+  document.title = t('app.title');
+  document.getElementById('app-subtitle').textContent = t('header.subtitle');
+  document.getElementById('locale-label').textContent = t('header.language');
+  document.getElementById('btn-reset').textContent = t('header.reset');
+  document.getElementById('btn-export-yaml').textContent = t('header.exportYaml');
+  exportCssFileButton.textContent = t('header.exportCss');
+  document.getElementById('btn-export-css').textContent = t('header.exportCssVars');
+  document.getElementById('build-summary').textContent = t('build.summary');
+  document.getElementById('preview-doc-label').textContent = t('preview.document');
+  document.getElementById('source-inspect-label').textContent = t('preview.sourceInspect');
+  document.getElementById('preview-file-label').textContent = t('preview.file');
+  openPreview.textContent = t('preview.openTab');
+  previewFrame.title = t('preview.frameTitle');
+  sourceOpenAdoc.textContent = t('source.openAdoc');
+  sourceCopyButton.textContent = t('source.copy');
+  renderBanners();
+  updateCompileApiUi();
+
+  const previewUnavailable = document.getElementById('preview-unavailable');
+  if (previewUnavailable) {
+    previewUnavailable.innerHTML = t('preview.unavailable');
+  }
+
+  if (skinSectionSummary) {
+    skinSectionSummary.textContent = t('groups.skin');
+  }
+  if (skinNameLabel) {
+    skinNameLabel.textContent = t('skin.name');
+  }
+  if (layoutLabel) {
+    layoutLabel.textContent = t('skin.layout');
+  }
+  if (layoutSelect) {
+    updateSkinSection();
+  }
+  updatePreviewDocLabels();
+  updateBuildInstructions();
+
+  if (state.theme) {
+    renderSettingGroups();
+  }
+}
+
+function updatePreviewDocLabels() {
+  if (!previewDocSelect) return;
+
+  previewPages().forEach((page) => {
+    const option = previewDocSelect.querySelector(`option[value="${page.id}"]`);
+    if (option) {
+      option.textContent = previewDocLabel(page);
+    }
+  });
+}
+
+function applyLocale(locale) {
+  setLocale(locale);
+  if (localeSelect) {
+    localeSelect.value = getLocale();
+  }
+  applyStaticUi();
+
+  if (state.selectedSourceId && state.sourceMap?.entryIndex?.[state.selectedSourceId]) {
+    showSourceEntry(state.sourceMap.entryIndex[state.selectedSourceId]);
+  }
 }
 
 function resolveSourceEntry(element) {
@@ -324,9 +347,9 @@ function showSourceEntry(entry) {
   const bits = [];
   if (entry.title) bits.push(entry.title);
   if (entry.sectionId && entry.sectionId !== '_preamble') bits.push(`#${entry.sectionId}`);
-  if (entry.line) bits.push(`行 ${entry.line}`);
+  if (entry.line) bits.push(t('source.line', { line: entry.line }));
   sourceLocation.textContent = bits.join(' · ');
-  sourceContent.textContent = entry.source || '(ソースなし)';
+  sourceContent.textContent = entry.source || t('source.noSource');
 
   const page = currentPreviewPage();
   if (page.sourceFile) {
@@ -436,9 +459,9 @@ async function setupSourceInspector() {
   sourceCopyButton.addEventListener('click', async () => {
     if (!sourceContent.textContent) return;
     await navigator.clipboard.writeText(sourceContent.textContent);
-    sourceCopyButton.textContent = 'コピー済み';
+    sourceCopyButton.textContent = t('source.copyDone');
     setTimeout(() => {
-      sourceCopyButton.textContent = 'コピー';
+      sourceCopyButton.textContent = t('source.copy');
     }, 1200);
   });
 
@@ -464,10 +487,11 @@ async function setupSourceInspector() {
 }
 
 function setupPreviewDocSelect() {
+  previewDocSelect.innerHTML = '';
   previewPages().forEach((page) => {
     const option = document.createElement('option');
     option.value = page.id;
-    option.textContent = page.label;
+    option.textContent = previewDocLabel(page);
     previewDocSelect.appendChild(option);
   });
 
@@ -485,15 +509,72 @@ function setupPreviewDocSelect() {
   });
 }
 
+function themePayload() {
+  const name = skinNameInput.value.trim() || 'my-skin';
+  return {
+    name,
+    layout: state.layoutId,
+    fonts: state.theme.fonts,
+    colors: state.theme.colors,
+    spacing: state.theme.spacing
+  };
+}
+
+function downloadTextFile(filename, text, mimeType) {
+  const blob = new Blob([text], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+async function detectCompileApi() {
+  if (isFileProtocol()) {
+    state.compileApiAvailable = false;
+    return;
+  }
+
+  try {
+    const response = await fetch(resolveUrl(COMPILE_API_PATH));
+    if (!response.ok) {
+      state.compileApiAvailable = false;
+      return;
+    }
+    const body = await response.json();
+    state.compileApiAvailable = body.status === 'ok';
+  } catch {
+    state.compileApiAvailable = false;
+  }
+}
+
+function updateCompileApiUi() {
+  if (!exportCssFileButton || !compileApiBanner) return;
+
+  exportCssFileButton.disabled = !state.compileApiAvailable;
+  exportCssFileButton.title = state.compileApiAvailable
+    ? t('compile.titleAvailable')
+    : t('compile.titleUnavailable');
+
+  if (!isFileProtocol() && !state.compileApiAvailable) {
+    compileApiBanner.classList.remove('hidden');
+  } else {
+    compileApiBanner.classList.add('hidden');
+  }
+}
+
 function updateBuildInstructions() {
   const name = skinNameInput.value.trim() || 'my-skin';
   buildInstructions.textContent = [
-    `# themes/${name}.yml を保存後:`,
-    `bundle exec ruby skin-maker/bin/skin-maker generate themes/${name}.yml`,
-    `bundle exec rake skins:build[${name}]`,
+    t('build.afterSave', { name }),
+    t('build.generate', { name }),
+    t('build.build', { name }),
     '',
-    '# AsciiDoc で利用:',
-    `:stylesheet: ${name}.css`
+    state.compileApiAvailable ? t('build.orDownloadCss') : t('build.orDownloadCssHint'),
+    '',
+    t('build.asciidoc'),
+    t('build.stylesheet', { name })
   ].join('\n');
 }
 
@@ -542,7 +623,8 @@ function applyTokenOverrides() {
 }
 
 function fieldLabel(group, key) {
-  return (LABELS[group] && LABELS[group][key]) || key;
+  const label = t(`fields.${group}.${key}`);
+  return label === `fields.${group}.${key}` ? key : label;
 }
 
 function isFieldAvailable(group, key) {
@@ -592,7 +674,8 @@ function renderSkinSection() {
   details.open = true;
 
   const summary = document.createElement('summary');
-  summary.textContent = 'スキン';
+  summary.textContent = t('groups.skin');
+  skinSectionSummary = summary;
   details.appendChild(summary);
 
   const body = document.createElement('div');
@@ -600,11 +683,11 @@ function renderSkinSection() {
   body.innerHTML = `
     <div class="field-grid">
       <label>
-        <span>スキン名</span>
+        <span id="skin-name-label"></span>
         <input type="text" id="skin-name" value="my-skin" placeholder="my-skin">
       </label>
       <label>
-        <span>レイアウト</span>
+        <span id="layout-label"></span>
         <select id="layout-select"></select>
       </label>
     </div>
@@ -616,6 +699,10 @@ function renderSkinSection() {
   skinNameInput = body.querySelector('#skin-name');
   layoutSelect = body.querySelector('#layout-select');
   layoutDescription = body.querySelector('#layout-description');
+  skinNameLabel = body.querySelector('#skin-name-label');
+  layoutLabel = body.querySelector('#layout-label');
+  skinNameLabel.textContent = t('skin.name');
+  layoutLabel.textContent = t('skin.layout');
 
   Object.values(state.manifest.layouts).forEach((layout) => {
     const option = document.createElement('option');
@@ -630,7 +717,7 @@ function renderSkinSection() {
 function updateSkinSection() {
   if (!layoutSelect || !layoutDescription) return;
   layoutSelect.value = state.layoutId;
-  layoutDescription.textContent = currentLayout().description;
+  layoutDescription.textContent = layoutDescriptionText(state.layoutId);
 }
 
 function renderFieldGroup(body, items) {
@@ -684,7 +771,7 @@ function renderSettingGroups() {
     details.open = openState[groupDef.id] ?? groupDef.open;
 
     const summary = document.createElement('summary');
-    summary.textContent = groupDef.label;
+    summary.textContent = t(`groups.${groupDef.id}`);
     details.appendChild(summary);
 
     const body = document.createElement('div');
@@ -746,12 +833,12 @@ function setupPreviewSurface() {
     previewFrame.replaceWith(Object.assign(document.createElement('div'), {
       id: 'preview-unavailable',
       className: 'preview-unavailable',
-      innerHTML: 'ライブプレビューには HTTP サーバーが必要です。<br><code>bundle exec rake editor:open</code>'
+      innerHTML: t('preview.unavailable')
     }));
     openPreview.href = '#';
     openPreview.onclick = (event) => {
       event.preventDefault();
-      alert('bundle exec rake editor:open を実行してからプレビューしてください。');
+      alert(t('preview.unavailableAlert'));
     };
     return;
   }
@@ -762,15 +849,7 @@ function setupPreviewSurface() {
 }
 
 function exportYaml() {
-  const name = skinNameInput.value.trim() || 'my-skin';
-  const payload = {
-    name,
-    layout: state.layoutId,
-    fonts: state.theme.fonts,
-    colors: state.theme.colors,
-    spacing: state.theme.spacing
-  };
-
+  const payload = themePayload();
   const yaml = [
     '---',
     `name: ${payload.name}`,
@@ -783,13 +862,36 @@ function exportYaml() {
     ...Object.entries(payload.spacing).map(([key, value]) => `  ${key}: ${JSON.stringify(value)}`)
   ].join('\n');
 
-  const blob = new Blob([`${yaml}\n`], { type: 'text/yaml;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  anchor.download = `${name}.yml`;
-  anchor.click();
-  URL.revokeObjectURL(url);
+  downloadTextFile(`${payload.name}.yml`, `${yaml}\n`, 'text/yaml;charset=utf-8');
+}
+
+async function exportCssFile() {
+  if (!state.compileApiAvailable) {
+    alert(t('compile.downloadAlert'));
+    return;
+  }
+
+  const payload = themePayload();
+  exportCssFileButton.disabled = true;
+
+  try {
+    const response = await fetch(resolveUrl(COMPILE_API_PATH), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const body = await response.json();
+    if (!response.ok) {
+      throw new Error(body.error || `HTTP ${response.status}`);
+    }
+
+    downloadTextFile(`${body.name || payload.name}.css`, body.css, 'text/css;charset=utf-8');
+  } catch (error) {
+    alert(t('compile.failed', { message: error.message }));
+  } finally {
+    updateCompileApiUi();
+  }
 }
 
 async function exportCssVars() {
@@ -809,7 +911,7 @@ async function exportCssVars() {
 
   const text = `:root {\n  ${lines.join('\n  ')}\n}`;
   await navigator.clipboard.writeText(text);
-  alert('CSS 変数ブロックをクリップボードにコピーしました。');
+  alert(t('cssVars.copied'));
 }
 
 function resetTheme() {
@@ -817,14 +919,26 @@ function resetTheme() {
 }
 
 async function init() {
+  document.documentElement.lang = getLocale();
+  if (localeSelect) {
+    localeSelect.value = getLocale();
+    localeSelect.addEventListener('change', () => {
+      applyLocale(localeSelect.value);
+    });
+  }
+
   state.manifest = await loadManifest();
 
   document.body.addEventListener('input', handleFieldInput);
   document.getElementById('btn-reset').addEventListener('click', resetTheme);
   document.getElementById('btn-export-yaml').addEventListener('click', exportYaml);
+  document.getElementById('btn-export-css-file').addEventListener('click', exportCssFile);
   document.getElementById('btn-export-css').addEventListener('click', exportCssVars);
 
   state.layoutId = Object.keys(state.manifest.layouts)[0];
+
+  await detectCompileApi();
+  updateCompileApiUi();
 
   settingsContainer.addEventListener('change', (event) => {
     if (event.target.id === 'layout-select') {
@@ -842,9 +956,8 @@ async function init() {
   }
 
   renderFields();
+  applyStaticUi();
 }
-
-init().catch((error) => {
   console.error(error);
-  document.body.innerHTML = `<pre>Skin Maker の初期化に失敗しました。\n\nbundle exec rake editor:prepare\nbundle exec rake editor:open\n\n${error}</pre>`;
+  document.body.innerHTML = `<pre>${formatMessage(t('init.failed'), { error })}</pre>`;
 });

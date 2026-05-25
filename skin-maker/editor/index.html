@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +7,25 @@
   <link rel="stylesheet" href="editor.css">
 </head>
 <body>
-  <div id="file-protocol-banner" class="file-banner hidden" role="alert">
-    <strong>file:// ではライブプレビューが使えません。</strong>
-    ターミナルで <code>bundle exec rake editor:open</code> を実行するか、
-    <code>bundle exec rake editor:serve</code> 後に
-    <a id="serve-link" href="http://127.0.0.1:8765/skin-maker/editor/index.html">http://127.0.0.1:8765/skin-maker/editor/</a>
-    を開いてください。色の編集と YAML 書き出しはこのまま利用できます。
-  </div>
+  <div id="file-protocol-banner" class="file-banner hidden" role="alert"></div>
+  <div id="compile-api-banner" class="file-banner hidden" role="status"></div>
   <header class="app-header">
     <div>
       <h1>Asciidoctor Skin Maker</h1>
-      <p class="subtitle">レイアウトを選び、色とフォントを調整して YAML を書き出します。</p>
+      <p id="app-subtitle" class="subtitle"></p>
     </div>
     <div class="header-actions">
-      <button type="button" id="btn-reset">リセット</button>
-      <button type="button" id="btn-export-yaml" class="primary">YAML をダウンロード</button>
-      <button type="button" id="btn-export-css" class="secondary">CSS 変数をコピー</button>
+      <label class="locale-picker">
+        <span id="locale-label"></span>
+        <select id="locale-select" aria-label="Language">
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+        </select>
+      </label>
+      <button type="button" id="btn-reset"></button>
+      <button type="button" id="btn-export-yaml" class="primary"></button>
+      <button type="button" id="btn-export-css-file" class="secondary" disabled></button>
+      <button type="button" id="btn-export-css" class="secondary"></button>
     </div>
   </header>
 
@@ -31,7 +34,7 @@
       <div id="settings-container"></div>
 
       <details class="settings-group commands" open>
-        <summary>ビルド手順</summary>
+        <summary id="build-summary"></summary>
         <div class="settings-body">
           <pre id="build-instructions"></pre>
         </div>
@@ -41,27 +44,27 @@
     <section class="panel preview">
       <div class="preview-toolbar">
         <label class="preview-doc-picker">
-          <span>プレビュー文書</span>
+          <span id="preview-doc-label"></span>
           <select id="preview-doc-select"></select>
         </label>
         <label class="preview-inspect-toggle">
           <input type="checkbox" id="source-inspect-toggle">
-          <span>ソース Inspect</span>
+          <span id="source-inspect-label"></span>
         </label>
-        <span>ファイル: <code id="preview-path">index2.html</code></span>
-        <a id="open-preview" href="../index2.html" target="_blank" rel="noopener">新しいタブで開く</a>
+        <span><span id="preview-file-label"></span> <code id="preview-path">index2.html</code></span>
+        <a id="open-preview" href="../index2.html" target="_blank" rel="noopener"></a>
       </div>
       <div class="preview-body">
         <iframe id="preview-frame" title="Skin preview"></iframe>
         <aside id="preview-source-panel" class="preview-source hidden" aria-live="polite">
           <div class="preview-source-toolbar">
             <div class="preview-source-meta">
-              <strong id="source-kind">要素</strong>
+              <strong id="source-kind"></strong>
               <span id="source-location"></span>
             </div>
             <div class="preview-source-actions">
-              <a id="source-open-adoc" href="#" target="_blank" rel="noopener">.adoc を開く</a>
-              <button type="button" id="source-copy" class="secondary">コピー</button>
+              <a id="source-open-adoc" href="#" target="_blank" rel="noopener"></a>
+              <button type="button" id="source-copy" class="secondary"></button>
             </div>
           </div>
           <pre id="source-content"></pre>
@@ -70,6 +73,7 @@
     </section>
   </main>
 
+  <script src="i18n.js"></script>
   <script src="manifest.js"></script>
   <script src="app.js"></script>
 </body>

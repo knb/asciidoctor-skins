@@ -13,17 +13,85 @@ endif::[]
 
 ---
 
-== Demo: https://larento.github.io/asciidoctor-skins
-This is a fork of original repo https://github.com/darshandsoni/asciidoctor-skins with the only aim to host it on GitHub Pages for convenience.
-
----
+Language: English | link:README-ja.adoc[日本語]
 
 = asciidoctor-skins: CSS stylesheets for asciidoctor
+
+This repository is a fork of https://github.com/darshandsoni/asciidoctor-skins[asciidoctor-skins], extended with a link:skin-maker/README.adoc[Skin Maker] toolchain and hosted on GitHub Pages for convenience.
+
 Markdown is superbly simple. Perfect for writing quick notes and pages with a basic structure. Asciidoctor is superbly sophisticated. Where markdown fails, asciidoc/asciidoctor allows you to document things with ease, fine grain control and a civilised demeanor, worlds away from hair wrenching word processors.
 
 Asciidoctor comes with a very clean default stylesheet that saves users from spending time formatting their documents. This repository is for users who would like some other style choices, without having to rewrite stylesheets from scratch. All stylesheets in here pull in asciidoctor's defaults first and then apply custom styles to a few elements.
 
+== GitHub Pages
+
+* **Skin preview demo:** https://larento.github.io/asciidoctor-skins/[larento.github.io/asciidoctor-skins]
+* **Skin Maker editor:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Open the visual editor]
+
+The site is deployed from the `main` branch. On each push, CI runs `bundle exec rake editor:prepare` to generate preview HTML and source maps before publishing.
+
+NOTE: This is a project site served under the `/asciidoctor-skins/` path prefix. Use the links above rather than assuming the repository root URL.
+
+== Skin Maker visual editor
+
+The visual editor lets you pick a layout, tune colors and fonts, preview the result, and export a theme YAML file. It is the fastest way to try Skin Maker without editing YAML by hand.
+
+**Open on GitHub Pages:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker editor]
+
+=== Features
+
+* UI language: English (default) and Japanese
+* Layout switching: `material`, `plain`, `bootswatch`, `tufte`
+* Live preview on `index2.html` (English) and `index2-ja.html` (Japanese)
+* Source inspect: click a preview element to see the matching AsciiDoc source
+* Download theme YAML
+* Copy a CSS custom-properties block to the clipboard
+* Download compiled CSS when running the local server (see below)
+
+=== Using the editor on GitHub Pages
+
+On GitHub Pages you can use live preview, source inspect, YAML export, and CSS variable copy.
+
+WARNING: GitHub Pages cannot run the Sass compile API. **CSS download is not available online.** Download YAML from the editor, then build CSS locally (see <<local-build>>) or run the local server.
+
+=== Running the editor locally
+
+For full functionality, including CSS download, start the bundled WEBrick server:
+
+[source,bash]
+----
+bundle install
+bundle exec rake editor:open
+----
+
+`editor:open` generates editor assets, renders preview HTML, starts the server on port `8765`, and opens the browser.
+
+Alternatively:
+
+[source,bash]
+----
+bundle exec rake editor:prepare
+bundle exec rake editor:serve
+# open http://127.0.0.1:8765/skin-maker/editor/index.html
+----
+
+CAUTION: Opening `skin-maker/editor/index.html` directly with `file://` (for example `xdg-open skin-maker/editor/index.html`) disables live preview. Browsers block `fetch` and iframe access on local files. Color editing and YAML export still work, but preview and source inspect require HTTP.
+
+[[local-build]]
+=== After exporting a theme
+
+Save the downloaded YAML under `themes/`, then generate CSS:
+
+[source,bash]
+----
+bundle exec ruby skin-maker/bin/skin-maker generate themes/my-skin.yml
+bundle exec rake skins:build[my-skin]
+----
+
+See link:skin-maker/README.adoc[skin-maker/README.adoc] for theme YAML format, CLI usage, and design references.
+
 == Usage
+
 If you have no idea what asciidoctor is, check out their fabulous project https://asciidoctor.org/[here].
 
 IMPORTANT: Once you've got an `.adoc` document going, download the link:css/asciidoctor.css[asciidoctor.css] file and a css skin file of your choice into your project directory.
@@ -34,7 +102,7 @@ IMPORTANT: Once you've got an `.adoc` document going, download the link:css/asci
 
 == Demo
 
-You can preview all of the stylesheets in the https://darshandsoni.com/asciidoctor-skins[online demo].
+You can preview all of the stylesheets in the https://darshandsoni.com/asciidoctor-skins[online demo] (upstream) or on https://larento.github.io/asciidoctor-skins/[GitHub Pages] (this fork).
 
 To change the displayed stylesheet, just add the name of the CSS file after a `?` character at the end of the URL. For example, to preview the material stylsheet, just add `?material`.
 
@@ -57,23 +125,7 @@ bundle exec ruby skin-maker/bin/skin-maker new my-brand --layout material
 bundle exec rake skins:rebuild
 ----
 
-Generated CSS is written to `css/`. See link:skin-maker/README.adoc[skin-maker/README.adoc] for theme YAML format and design references.
-
-=== Visual editor
-
-**GitHub Pages:** https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker editor] (live preview, source inspect, YAML export).
-
-Locally, open link:skin-maker/editor/index.html[skin-maker/editor/index.html] via a local HTTP server:
-
-[source,bash]
-----
-bundle exec rake editor:open
-# or: bundle exec rake editor:prepare && bundle exec rake editor:serve
-----
-
-`xdg-open skin-maker/editor/index.html` (`file://`) does not work for preview because browsers block `fetch` and iframe access on local files.
-
-The editor provides live preview on `index2.html` / `index2-ja.html`, layout switching (`material`, `plain`, `bootswatch`, `tufte`), AsciiDoc source inspect, and YAML export. GitHub Pages deploys run `rake editor:prepare` in CI to generate preview HTML and source maps.
+Generated CSS is written to `css/`. Use the link:https://larento.github.io/asciidoctor-skins/skin-maker/editor/index.html[visual editor] for interactive tuning, or edit YAML directly.
 
 == Skins
 

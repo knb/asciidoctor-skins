@@ -44,6 +44,20 @@ body {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.locale-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.locale-picker select {
+  font-size: 0.85rem;
+  min-width: 7rem;
 }
 
 button {
@@ -65,6 +79,11 @@ button.primary {
 button.secondary {
   background: var(--accent-soft);
   border-color: #93c5fd;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .app-main {

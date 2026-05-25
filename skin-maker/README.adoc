@@ -52,11 +52,15 @@ GitHub Pages（プロジェクトサイト `/asciidoctor-skins/`）でも動作�
 
 機能:
 
+* UI 言語切り替え（English / 日本語、デフォルト English）
 * レイアウト切り替え（material / plain / bootswatch / tufte）
 * 色・フォント・余白のライブプレビュー（`index2.html` / `index2-ja.html`）
 * プレビュー要素をクリックして AsciiDoc ソースを参照（ソース Inspect）
 * テーマ YAML のダウンロード
+* 完成 CSS のダウンロード（ローカルサーバー `editor:open` / `editor:serve` 時のみ）
 * CSS 変数ブロックのクリップボードコピー
+
+GitHub Pages では Sass コンパイル API が使えないため、CSS ダウンロードは利用できません。YAML をダウンロードし、ローカルで `skins:build` するか、ローカルサーバー経由で CSS を生成してください。
 
 書き出した YAML は `themes/` に保存し、以下で CSS 化します:
 
