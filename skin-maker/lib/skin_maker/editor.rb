@@ -163,7 +163,9 @@ module SkinMaker
           'toc_title_size' => '1.1rem'
         }
       else
-        {}
+        {
+          'body_font_size' => '16px'
+        }
       end
     end
 

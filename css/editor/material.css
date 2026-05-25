@@ -27,13 +27,14 @@
   --sect-border-radius: 8px;
   --toc-title-size: 16px;
   --body-margin-x: 0;
-  --body-font-size: inherit;
+  --body-font-size: 16px;
   --line-height: inherit;
   --content-max-width: none;
 }
 
 body {
   font-family: var(--font-body);
+  font-size: var(--body-font-size);
   background-color: var(--color-main);
   color: var(--color-black);
 }

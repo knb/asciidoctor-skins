@@ -28,6 +28,6 @@ spacing:
   sect_border_radius: 8px
   toc_title_size: 16px
   body_margin_x: 0
-  body_font_size: null
+  body_font_size: 16px
   line_height: null
   content_max_width: null

@@ -24,11 +24,11 @@
   --header-padding: 25px;
   --heading-padding: 10px;
   --sect-border-radius: 8px;
-  --toc-title-size: 16px;
+  --toc-title-size: 1.1rem;
   --body-margin-x: 0;
-  --body-font-size: inherit;
-  --line-height: inherit;
-  --content-max-width: none;
+  --body-font-size: 15px;
+  --line-height: 2;
+  --content-max-width: 1400px;
 }
 
 html {

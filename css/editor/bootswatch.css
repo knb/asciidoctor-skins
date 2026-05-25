@@ -26,9 +26,9 @@
   --heading-padding: 10px;
   --sect-border-radius: 8px;
   --toc-title-size: 16px;
-  --body-margin-x: 0;
-  --body-font-size: inherit;
-  --line-height: inherit;
+  --body-margin-x: 10%;
+  --body-font-size: 14px;
+  --line-height: 1.42857143;
   --content-max-width: none;
 }
 

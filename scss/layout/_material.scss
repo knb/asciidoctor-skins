@@ -4,6 +4,7 @@
 @mixin apply {
   body {
     font-family: var(--font-body);
+    font-size: var(--body-font-size);
     background-color: var(--color-main);
     color: var(--color-black);
   }

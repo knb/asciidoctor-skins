@@ -23,9 +23,9 @@ colors:
   white: "#FFFFFF"
   black: "#000000"
 spacing:
-  body_margin_x: 0
-  body_font_size:
-  line_height:
+  body_margin_x: 10%
+  body_font_size: 14px
+  line_height: 1.42857143
   header_padding: 25px
   heading_padding: 10px
   sect_border_radius: 8px
