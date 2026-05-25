@@ -48,7 +48,7 @@ bundle exec rake editor:open
 
 `xdg-open skin-maker/editor/index.html`（`file://`）ではブラウザの CORS 制限によりライブプレビューが動きません。色の編集と YAML 書き出しのみ可能です。
 
-GitHub Pages（プロジェクトサイト `/asciidoctor-skins/`）でも動作します。`gh-pages` ブランチへの push 時、CI が `editor:prepare` を実行してプレビュー HTML とソースマップを生成してからデプロイします。
+GitHub Pages（プロジェクトサイト `/asciidoctor-skins/`）でも動作します。`main` ブランチへの push 時、CI が `editor:prepare` を実行してプレビュー HTML とソースマップを生成してからデプロイします。
 
 機能:
 
