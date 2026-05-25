@@ -958,6 +958,8 @@ async function init() {
   renderFields();
   applyStaticUi();
 }
+
+init().catch((error) => {
   console.error(error);
   document.body.innerHTML = `<pre>${formatMessage(t('init.failed'), { error })}</pre>`;
 });
