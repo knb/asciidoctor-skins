@@ -1,68 +1,70 @@
+Language: English | link:README-ja.adoc[日本語]
+
 = Skin Maker
 
-Skin Maker は AsciiDoc 用スタイルシートを *レイアウト* と *テーマ（フォント・色）* に分離して管理するツールです。
+Skin Maker separates AsciiDoc stylesheets into *layout* (structure) and *theme* (fonts, colors, and spacing tokens).
 
-== コンセプト
-
-[cols="1,2",options="header"]
-|===
-| レイヤ | 役割
-
-| `scss/layout/` | 見出し帯、TOC 配置、表・セクションの構造（確定後はあまり触らない）
-| `themes/*.yml` | 色・フォント・余白トークン（調整の主戦場）
-| `scss/_tokens.scss` | Sass 変数 → CSS カスタムプロパティ（`:root`）への変換
-| `scss/_base.scss` | Asciidoctor デフォルト CSS の import
-|===
-
-== レイアウトプリセット
+== Concept
 
 [cols="1,2",options="header"]
 |===
-| ID | 説明
+| Layer | Role
 
-| `material` | 見出し帯 + サイドバー TOC（既存 material-* 系）
-| `plain` | シンプルなタイポグラフィ中心
-| `bootswatch` | 水平ナビバー TOC + ドキュメント左右マージン
-| `tufte` | セリフ体 + 広い余白（Tufte 風、ベース CSS 非依存）
+| `scss/layout/` | Heading bands, TOC placement, tables, and section structure (rarely changed once set)
+| `themes/*.yml` | Color, font, and spacing tokens (the main tuning surface)
+| `scss/_tokens.scss` | Sass variables → CSS custom properties on `:root`
+| `scss/_base.scss` | Import of Asciidoctor default CSS
 |===
 
-== セットアップ
+== Layout presets
+
+[cols="1,2",options="header"]
+|===
+| ID | Description
+
+| `material` | Filled heading bands and sidebar TOC (material-* family)
+| `plain` | Minimal typography-focused layout
+| `bootswatch` | Horizontal navbar TOC with document side margins
+| `tufte` | Serif typography and wide margins (Tufte-style, no base CSS dependency)
+|===
+
+== Setup
 
 [source,bash]
 ----
 bundle install
 ----
 
-== ビジュアルエディタ
+== Visual editor
 
-ブラウザ上で色・フォントを調整し、YAML を書き出せます。
+Tune colors and fonts in the browser and export theme YAML.
 
-*GitHub Pages:* https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker エディタ]
+*GitHub Pages:* https://knb.github.io/asciidoctor-skins/skin-maker/editor/index.html[Skin Maker editor]
 
 [source,bash]
 ----
 bundle exec rake editor:open
 ----
 
-`editor:open` はアセット生成、`index2.html` と `index2-ja.html` のレンダリング、HTTP サーバー起動、ブラウザ表示まで行います。
+`editor:open` generates assets, renders `index2.html` and `index2-ja.html`, starts the HTTP server, and opens the browser.
 
-`xdg-open skin-maker/editor/index.html`（`file://`）ではブラウザの CORS 制限によりライブプレビューが動きません。色の編集と YAML 書き出しのみ可能です。
+CAUTION: Opening `skin-maker/editor/index.html` via `file://` (for example `xdg-open skin-maker/editor/index.html`) disables live preview because browsers block `fetch` and iframe access on local files. Color editing and YAML export still work.
 
-GitHub Pages（プロジェクトサイト `/asciidoctor-skins/`）でも動作します。`main` ブランチへの push 時、CI が `editor:prepare` を実行してプレビュー HTML とソースマップを生成してからデプロイします。
+The editor also runs on GitHub Pages (project site prefix `/asciidoctor-skins/`). On each push to `main`, CI runs `editor:prepare` to generate preview HTML and source maps before deploy.
 
-機能:
+Features:
 
-* UI 言語切り替え（English / 日本語、デフォルト English）
-* レイアウト切り替え（material / plain / bootswatch / tufte）
-* 色・フォント・余白のライブプレビュー（`index2.html` / `index2-ja.html`）
-* プレビュー要素をクリックして AsciiDoc ソースを参照（ソース Inspect）
-* テーマ YAML のダウンロード
-* 完成 CSS のダウンロード（ローカルサーバー `editor:open` / `editor:serve` 時のみ）
-* CSS 変数ブロックのクリップボードコピー
+* UI language: English (default) and Japanese
+* Layout switching: `material`, `plain`, `bootswatch`, `tufte`
+* Live preview on `index2.html` (English) and `index2-ja.html` (Japanese)
+* Source inspect: click a preview element to see matching AsciiDoc source
+* Download theme YAML
+* Download compiled CSS (local server via `editor:open` / `editor:serve` only)
+* Copy CSS custom-properties block to the clipboard
 
-GitHub Pages では Sass コンパイル API が使えないため、CSS ダウンロードは利用できません。YAML をダウンロードし、ローカルで `skins:build` するか、ローカルサーバー経由で CSS を生成してください。
+WARNING: GitHub Pages cannot run the Sass compile API, so CSS download is unavailable online. Download YAML and build CSS locally with `skins:build`, or run the local server to generate CSS.
 
-書き出した YAML は `themes/` に保存し、以下で CSS 化します:
+Save exported YAML under `themes/`, then compile:
 
 [source,bash]
 ----
@@ -70,41 +72,41 @@ bundle exec ruby skin-maker/bin/skin-maker generate themes/my-skin.yml
 bundle exec rake skins:build[my-skin]
 ----
 
-== CLI の使い方
+== CLI usage
 
-=== 新しいスキンを作る
+=== Create a new skin
 
 [source,bash]
 ----
 bundle exec ruby skin-maker/bin/skin-maker new my-brand --layout bootswatch
-# themes/my-brand.yml を編集
+# edit themes/my-brand.yml
 bundle exec rake skins:rebuild
 ----
 
-=== 既存 material テーマを一括再生成
+=== Regenerate existing material themes
 
 [source,bash]
 ----
 bundle exec ruby skin-maker/bin/skin-maker themes:material
 ----
 
-== Rake タスク
+== Rake tasks
 
 [source,bash]
 ----
 bundle exec rake editor:build       # css/editor/*.css + manifest.js
-bundle exec rake preview:index2       # index2.html を生成
-bundle exec rake preview:index2_ja    # index2-ja.html を生成
-bundle exec rake preview:pages        # 上記 2 つをまとめて生成
-bundle exec rake editor:prepare       # editor:build + preview:pages
-bundle exec rake editor:serve       # HTTP サーバー（PORT=8765）
-bundle exec rake editor:open        # prepare + serve + ブラウザ起動
+bundle exec rake preview:index2     # generate index2.html
+bundle exec rake preview:index2_ja  # generate index2-ja.html
+bundle exec rake preview:pages      # both preview pages
+bundle exec rake editor:prepare     # editor:build + preview:pages
+bundle exec rake editor:serve       # HTTP server (PORT=8765)
+bundle exec rake editor:open        # prepare + serve + open browser
 bundle exec rake skins:generate     # themes/*.yml → scss/skins/*.scss
 bundle exec rake skins:build        # scss/skins/*.scss → css/*.css
 bundle exec rake skins:rebuild      # generate + build
 ----
 
-== テーマ YAML の例
+== Example theme YAML
 
 [source,yaml]
 ----
@@ -128,23 +130,23 @@ spacing:
   line_height: 1.42857143
 ----
 
-== ディレクトリ構成
+== Directory layout
 
 [source]
 ----
 scss/
-  layout/             # レイアウト（構造）
-  skins/              # スキンエントリ
+  layout/             # layout (structure)
+  skins/              # skin entry points
 themes/
-  editor/             # エディタ用デフォルトテーマ
+  editor/             # default themes for the editor
   material-blue.yml
 skin-maker/
-  editor/             # ビジュアルエディタ (HTML/JS)
+  editor/             # visual editor (HTML/JS)
   bin/skin-maker
-css/editor/           # エディタプレビュー用 CSS
+css/editor/           # editor preview CSS
 ----
 
-== テーマ作成の参考サイト
+== Design references
 
 * https://themes.asciidoctor.org/preview/[Asciidoctor Themes Preview]
 * https://github.com/asciidoctor/asciidoctor-stylesheet-factory[asciidoctor-stylesheet-factory]
@@ -156,15 +158,15 @@ css/editor/           # エディタプレビュー用 CSS
 * https://realtimecolors.com/[Realtime Colors]
 * https://open-props.style/[Open Props]
 * https://fonts.google.com/[Google Fonts]
-* `css/template.css` — セレクタ一覧（デバッグ色付き）
+* `css/template.css` — selector map with debug colors
 
-== 既存スキンとの関係
+== Relationship to existing skins
 
-`css/` 直下のレガシースキン（`boot-*`, `adoc-*`, `tufte` など）はそのまま残っています。
-Skin Maker で生成した CSS は同じ `css/` に出力され、`:stylesheet:` 属性や switcher から利用できます。
+Legacy skins under `css/` (`boot-*`, `adoc-*`, `tufte`, and others) remain unchanged.
+Skin Maker output also lands in `css/` and works with the `:stylesheet:` attribute and the switcher.
 
-今後の拡張案:
+Possible future work:
 
-* switcher.js マニフェストの自動生成
-* サーバー側 YAML → CSS コンパイル API
-* sidenote 対応 tufte レイアウトの拡張
+* Auto-generate switcher.js manifest
+* Server-side YAML → CSS compile API
+* Extended tufte layout with sidenote support

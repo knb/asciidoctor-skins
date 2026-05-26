@@ -17,7 +17,7 @@ endif::[]
 
 = asciidoctor-skins: Asciidoctor 用 CSS スタイルシート
 
-本リポジトリは https://github.com/darshandsoni/asciidoctor-skins[asciidoctor-skins] のフォークです。link:skin-maker/README.adoc[Skin Maker] ツールチェーンを追加し、GitHub Pages で公開しています。
+本リポジトリは https://github.com/darshandsoni/asciidoctor-skins[asciidoctor-skins] のフォークです。link:skin-maker/README-ja.adoc[Skin Maker] ツールチェーンを追加し、GitHub Pages で公開しています。
 
 Markdown は手軽で、短いメモや基本的な構造のページに向いています。Asciidoctor はより表現力が高く、Asciidoc / Asciidoctor なら細かい制御も容易です。Asciidoctor にはすでに整ったデフォルトスタイルシートが付属しており、多くの場合はこれで十分です。
 
@@ -88,7 +88,7 @@ bundle exec ruby skin-maker/bin/skin-maker generate themes/my-skin.yml
 bundle exec rake skins:build[my-skin]
 ----
 
-テーマ YAML の形式、CLI、設計の詳細は link:skin-maker/README.adoc[skin-maker/README.adoc] を参照してください。
+テーマ YAML の形式、CLI、設計の詳細は link:skin-maker/README-ja.adoc[skin-maker/README-ja.adoc] を参照してください。
 
 == 基本的な使い方
 
@@ -114,7 +114,7 @@ URL 末尾に `?` と CSS ファイル名を付けると表示スキンを切り
 
 == Skin Maker (Sass)
 
-*レイアウト*（構造）と *テーマ*（色・フォント）を分離する link:skin-maker/README.adoc[Ruby + Sass 製 Skin Maker] が同梱されています。
+*レイアウト*（構造）と *テーマ*（色・フォント）を分離する link:skin-maker/README-ja.adoc[Ruby + Sass 製 Skin Maker] が同梱されています。
 
 .クイックスタート
 [source,bash]
